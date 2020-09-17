@@ -7,7 +7,8 @@ import java.io.InputStreamReader;
 
 public class PointReader implements Closeable,AutoCloseable {
 
-    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
     public int getCoordinate(String axisName) {
             try {
                 while (true) {

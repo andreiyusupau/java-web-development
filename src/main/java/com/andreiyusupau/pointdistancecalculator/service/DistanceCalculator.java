@@ -23,15 +23,12 @@ public class DistanceCalculator {
                 return "Point B is closer to origin point than point A.";
             case -1:
                 return "Point A is closer to origin point than point B.";
-            case 0:
-                return "Distances from point A and point B to origin point are equal.";
             default:
-                throw new ArithmeticException();
+                return "Distances from point A and point B to origin point are equal.";
         }
     }
 
-    public double calculateDistance(Point point1, Point point2) {
-        //  return Math.hypot(Math.abs(point1.getX()-point2.getX()),Math.abs(point1.getY()-point2.getY()));
+    public static double calculateDistance(Point point1, Point point2) {
         return Math.sqrt((point1.getX() - point2.getX()) * (point1.getX() - point2.getX()) + (point1.getY() - point2.getY()) * (point1.getY() - point2.getY()));
     }
 

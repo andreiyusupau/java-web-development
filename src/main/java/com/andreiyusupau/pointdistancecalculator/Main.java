@@ -1,5 +1,6 @@
 package com.andreiyusupau.pointdistancecalculator;
 
+import com.andreiyusupau.pointdistancecalculator.controller.PointController;
 import com.andreiyusupau.pointdistancecalculator.dao.ConsoleInputPointDAO;
 import com.andreiyusupau.pointdistancecalculator.dao.DAO;
 import com.andreiyusupau.pointdistancecalculator.model.Point;
@@ -13,10 +14,9 @@ public class Main {
         PointReader pointReader=new PointReader();
         DAO<Point> pointDAO=new ConsoleInputPointDAO(pointReader);
         DistanceCalculator distanceCalculator=new DistanceCalculator(pointDAO);
-        String message;
-        message= distanceCalculator.getResult();
         View view=new ConsoleView();
-        view.show(message);
+        PointController pointController=new PointController(distanceCalculator,view);
+        pointController.comparePointDistances();
         pointReader.close();
     }
 }
