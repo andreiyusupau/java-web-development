@@ -13,8 +13,8 @@ public class ConsoleInputPointDAO implements DAO<Point> {
     @Override
     public Point get() {
 
-       int x= pointReader.getCoordinate("x");
-        int y=pointReader.getCoordinate("y");
-        return new Point(x,y);
+        int x = pointReader.getCoordinate("x");
+        int y = pointReader.getCoordinate("y");
+        return new Point(x, y);
     }
 }
