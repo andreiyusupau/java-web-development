@@ -8,7 +8,7 @@ public class ViewFactory {
 
     }
 
-    public View getView(){
+    public ConsoleView getConsoleView(){
         return new ConsoleView();
     }
 
