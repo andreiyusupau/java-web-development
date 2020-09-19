@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ConsoleInputPointDAO implements DAO<Point> {
-    private final PointReader pointReader = new PointReader();
 
-    public ConsoleInputPointDAO() {
-    }
+    private final PointReader pointReader = new PointReader();
 
     @Override
     public Point get() {
