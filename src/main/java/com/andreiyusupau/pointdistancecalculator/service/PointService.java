@@ -15,7 +15,7 @@ public class PointService {
         Point pointB = pointDAO.get();
         DistanceCalculator distanceCalculator = new DistanceCalculator();
         int compareResult = distanceCalculator.comparePointDistances(pointA, pointB);
-       return createResponseMessage(compareResult);
+        return createResponseMessage(compareResult);
     }
 
     private String createResponseMessage(int compareResult) {
