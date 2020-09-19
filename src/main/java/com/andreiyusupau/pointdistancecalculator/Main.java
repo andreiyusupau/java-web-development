@@ -10,11 +10,9 @@ import com.andreiyusupau.pointdistancecalculator.view.ViewFactory;
 
 public class Main {
     public static void main(String[] args) {
-        DAOFactory daoFactory=DAOFactory.getInstance();
-        DAO<Point> pointDAO = daoFactory.getConsoleInputPointDAO();
+        DAO<Point> pointDAO = DAOFactory.getDAO("console");
         PointService pointService = new PointService(pointDAO);
-        ViewFactory viewFactory=ViewFactory.getInstance();
-        View view = viewFactory.getConsoleView();
+        View view = ViewFactory.getView("console");
         PointController pointController = new PointController(pointService, view);
         pointController.comparePointDistances();
     }
