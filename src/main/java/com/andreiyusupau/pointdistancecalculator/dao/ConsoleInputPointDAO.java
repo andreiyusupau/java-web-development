@@ -3,6 +3,7 @@ package com.andreiyusupau.pointdistancecalculator.dao;
 import com.andreiyusupau.pointdistancecalculator.model.Point;
 
 import java.io.BufferedReader;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -21,9 +22,13 @@ public class ConsoleInputPointDAO implements DAO<Point> {
 
     private static class PointReader {
 
-        private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
         public int getCoordinate(String axisName) {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FilterInputStream(System.in){
+                @Override
+                public void close(){
+                    //Prevent closing System.in
+                }
+            }));
             try {
                 while (true) {
                     System.out.println("Enter the value of " + axisName + ":");
@@ -36,6 +41,12 @@ public class ConsoleInputPointDAO implements DAO<Point> {
                 }
             } catch (IOException e) {
                 System.err.println("Error reading input.");
+            }finally {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    System.err.println("Error closing reader.");
+                }
             }
             return 0;
         }
