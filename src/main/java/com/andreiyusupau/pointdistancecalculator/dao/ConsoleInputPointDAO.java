@@ -22,7 +22,6 @@ public class ConsoleInputPointDAO implements DAO<Point> {
     private static class PointReader {
 
         private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        private static int readCounter = 0;
 
         public int getCoordinate(String axisName) {
             try {
@@ -30,7 +29,6 @@ public class ConsoleInputPointDAO implements DAO<Point> {
                     System.out.println("Enter the value of " + axisName + ":");
                     String input = bufferedReader.readLine();
                     if (input.matches("-?\\d{1,9}")) {
-                        readCounter++;
                         return Integer.parseInt(input);
                     } else {
                         System.err.println("Enter an integer number with length less than 10 digits!");
@@ -38,14 +36,6 @@ public class ConsoleInputPointDAO implements DAO<Point> {
                 }
             } catch (IOException e) {
                 System.err.println("Error reading input.");
-            } finally {
-                if (readCounter == 4) {
-                    try {
-                        bufferedReader.close();
-                    } catch (IOException e) {
-                        System.err.println("Error closing reader.");
-                    }
-                }
             }
             return 0;
         }
