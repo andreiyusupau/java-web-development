@@ -6,16 +6,18 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesLoader {
-    private Properties properties=new Properties();
+    private final Properties properties = new Properties();
 
-    public PropertiesLoader(){
+    public PropertiesLoader() {
         load();
     }
 
-    private void load(){
+    private void load() {
         InputStream inputStream = null;
         try {
-            inputStream = this.getClass().getClassLoader().getResourceAsStream("application.properties");
+            inputStream = this.getClass()
+                    .getClassLoader()
+                    .getResourceAsStream("application.properties");
             if (inputStream != null) {
                 properties.load(inputStream);
             } else {
@@ -25,7 +27,9 @@ public class PropertiesLoader {
             System.err.println("Error reading properties");
         } finally {
             try {
-                inputStream.close();
+                if (inputStream != null) {
+                    inputStream.close();
+                }
             } catch (IOException e) {
                 System.err.println("Error closing stream");
             }
@@ -33,15 +37,15 @@ public class PropertiesLoader {
     }
 
     public String getProperty(String name) {
-        if(properties.containsKey(name)){
+        if (properties.containsKey(name)) {
             return properties.getProperty(name);
-        }else {
+        } else {
             throw new NoSuchPropertyException("Property with name \"" + name + "\" does not exists.");
         }
     }
 
-    private static class NoSuchPropertyException extends RuntimeException{
-        public NoSuchPropertyException(String errorMessage){
+    private static class NoSuchPropertyException extends RuntimeException {
+        public NoSuchPropertyException(String errorMessage) {
             super(errorMessage);
         }
     }

@@ -14,8 +14,7 @@ public class PointController {
     }
 
     public void comparePointDistances() {
-        String message;
-        message = pointService.getResult();
+        String message = pointService.getResult();
         view.show(message);
     }
 }
