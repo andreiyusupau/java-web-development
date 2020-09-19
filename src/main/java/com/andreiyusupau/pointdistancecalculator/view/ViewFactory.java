@@ -11,4 +11,10 @@ public class ViewFactory {
         }
     }
 
+    private static class NoSuchViewImplementation extends RuntimeException{
+
+        public NoSuchViewImplementation(String errorMessage){
+            super(errorMessage);
+        }
+    }
 }

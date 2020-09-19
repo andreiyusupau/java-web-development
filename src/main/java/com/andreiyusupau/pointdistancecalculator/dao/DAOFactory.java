@@ -14,4 +14,10 @@ public class DAOFactory {
         }
     }
 
+    private static class NoSuchDAOImplementation extends RuntimeException {
+
+        public NoSuchDAOImplementation(String errorMessage){
+            super(errorMessage);
+        }
+    }
 }
