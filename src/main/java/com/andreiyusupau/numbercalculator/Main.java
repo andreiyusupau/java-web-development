@@ -1,34 +1,72 @@
 package com.andreiyusupau.numbercalculator;
 
+import com.andreiyusupau.numbercalculator.dao.DAO;
+import com.andreiyusupau.numbercalculator.dao.DAOFactory;
 import com.andreiyusupau.numbercalculator.service.Calculator;
+import com.andreiyusupau.numbercalculator.service.NumberService;
 import com.andreiyusupau.numbercalculator.util.PropertiesLoader;
 import com.andreiyusupau.numbercalculator.view.View;
 import com.andreiyusupau.numbercalculator.view.ViewFactory;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args) {
         PropertiesLoader propertiesLoader = new PropertiesLoader();
+        ConsoleArgsParser consoleArgsParser = new ConsoleArgsParser(args);
         View view = ViewFactory.getView(propertiesLoader.getProperty("view.type"));
+        DAO<Long> numberDAO = DAOFactory.getDAO(propertiesLoader.getProperty("dao.type"));
         Calculator calculator = new Calculator();
+        NumberService numberService = new NumberService(calculator, numberDAO);
+        view.show("The calculation result is " + numberService.process(consoleArgsParser.getMode()));
+    }
 
+    private static class ConsoleArgsParser {
+        private final String mode;
+        private final long[] numbers;
 
-        long[] numbers = new long[args.length - 1];
-        for (int i = 1; i < args.length; i++) {
-            numbers[i - 1] = Long.parseLong(args[i]);
+        public ConsoleArgsParser(String[] args) {
+            mode = args[0];
+            numbers = parseNumbers(args);
+            writeNumbersToFile();
         }
 
-        long calcResult=0;
-        switch (args[0]) {
-            case "sum":
-                calcResult = calculator.sum(numbers);
-                break;
-            case "mul":
-                calcResult = calculator.multiply(numbers);
-                break;
-            default:
-               //TODO:
+        private long[] parseNumbers(String[] args) {
+            long[] numbers = new long[args.length - 1];
+            for (int i = 1; i < args.length; i++) {
+                numbers[i - 1] = Long.parseLong(args[i]);
+            }
+            return numbers;
         }
-                view.show(" "+calcResult);
+
+        public String getMode() {
+            return mode;
+        }
+
+        private void writeNumbersToFile() {
+            File file = new File("numbers.data");
+            BufferedWriter bufferedWriter = null;
+            try {
+                bufferedWriter = new BufferedWriter(new FileWriter(file));
+                for (long number : numbers) {
+                    bufferedWriter.write(String.valueOf(number));
+                    bufferedWriter.newLine();
+                }
+            } catch (IOException e) {
+                System.err.println("Error writing numbers to file.");
+            } finally {
+                try {
+                    if (bufferedWriter != null) {
+                        bufferedWriter.close();
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error closing writer.");
+                }
+            }
+        }
     }
 }
