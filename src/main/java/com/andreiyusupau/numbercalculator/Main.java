@@ -1,5 +1,6 @@
 package com.andreiyusupau.numbercalculator;
 
+import com.andreiyusupau.numbercalculator.controller.NumberController;
 import com.andreiyusupau.numbercalculator.dao.DAO;
 import com.andreiyusupau.numbercalculator.dao.DAOFactory;
 import com.andreiyusupau.numbercalculator.service.Calculator;
@@ -22,15 +23,16 @@ public class Main {
         DAO<Long> numberDAO = DAOFactory.getDAO(propertiesLoader.getProperty("dao.type"));
         Calculator calculator = new Calculator();
         NumberService numberService = new NumberService(calculator, numberDAO);
-        view.show("The calculation result is " + numberService.process(consoleArgsParser.getMode()));
+        NumberController numberController= new NumberController(numberService,view);
+        numberController.performOperation(consoleArgsParser.getOperation());
     }
 
     private static class ConsoleArgsParser {
-        private final String mode;
+        private final String operation;
         private final long[] numbers;
 
         public ConsoleArgsParser(String[] args) {
-            mode = args[0];
+            operation = args[0];
             numbers = parseNumbers(args);
             writeNumbersToFile();
         }
@@ -43,8 +45,8 @@ public class Main {
             return numbers;
         }
 
-        public String getMode() {
-            return mode;
+        public String getOperation() {
+            return operation;
         }
 
         private void writeNumbersToFile() {

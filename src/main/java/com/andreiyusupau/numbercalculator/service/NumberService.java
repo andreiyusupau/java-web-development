@@ -27,11 +27,11 @@ public class NumberService {
         return outputArray;
     }
 
-    public long performOperation(String operationType, long[] numbers) {
+    private long performOperation(String operationType, long[] numbers) {
         switch (operationType) {
             case "sum":
                 return calculator.sum(numbers);
-            case "mul":
+            case "multiply":
                 return calculator.multiply(numbers);
             default:
                 throw new NoSuchArithmeticOperationException("Unknown arithmetic operation -\"" + operationType + "\"");
