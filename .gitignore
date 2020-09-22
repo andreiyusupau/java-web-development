@@ -1,2 +1,5 @@
 # Project exclude paths
 /target/
+/.idea/
+/number-calculator.iml
+/numbers.data
