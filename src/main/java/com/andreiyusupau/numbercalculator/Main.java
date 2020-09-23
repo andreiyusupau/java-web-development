@@ -17,6 +17,10 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
+        run(args);
+    }
+
+    public static void run(String[] args){
         PropertiesLoader propertiesLoader = new PropertiesLoader();
         ConsoleArgsParser consoleArgsParser = new ConsoleArgsParser(args);
         View view = ViewFactory.getView(propertiesLoader.getProperty("view.type"));
