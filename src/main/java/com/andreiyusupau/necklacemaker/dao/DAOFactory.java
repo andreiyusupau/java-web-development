@@ -10,14 +10,8 @@ public class DAOFactory {
             case "console":
                 return new ConsoleGemDAO();
             default:
-                throw new NoSuchDAOImplementation("DAO referred to type \""+type+"\" does not exists.");
+                throw new NoSuchDAOImplementationException("DAO referred to type \""+type+"\" does not exists.");
         }
     }
 
-    private static class NoSuchDAOImplementation extends RuntimeException {
-
-        public NoSuchDAOImplementation(String errorMessage){
-            super(errorMessage);
-        }
-    }
 }

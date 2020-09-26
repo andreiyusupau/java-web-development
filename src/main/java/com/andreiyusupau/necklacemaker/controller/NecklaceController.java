@@ -19,25 +19,29 @@ public class NecklaceController {
     public void init() {
         view.show("WELCOME TO THE NECKLACE CREATOR 1.0");
         view.show("Lets create a new necklace");
+        process();
+    }
+
+    private void process() {
         boolean exit = false;
         while (!exit) {
-           int input= view.read("[0-2]");
-                switch (input) {
-                    case 1:
-                        necklaceService.addGem();
-                        break;
-                    case 2: {
-                        necklaceService.createNecklace();
-                        double mass = necklaceService.getNecklaceMass();
-                        BigDecimal price = necklaceService.getNecklacePrice();
-                        view.show("Necklace created. Its weight is " + mass + " carats at price of " + price + " $.");
-                        exit = true;
-                        break;
-                    }
-                    case 0:
-                        exit = true;
-                        break;
+            int input = view.read("[0-2]");
+            switch (input) {
+                case 1:
+                    necklaceService.addGem();
+                    break;
+                case 2: {
+                    necklaceService.createNecklace();
+                    double mass = necklaceService.getNecklaceMass();
+                    BigDecimal price = necklaceService.getNecklacePrice();
+                    view.show("Necklace created. Its weight is " + mass + " carats at price of " + price + " $.");
+                    exit = true;
+                    break;
                 }
+                case 0:
+                    exit = true;
+                    break;
             }
         }
     }
+}
