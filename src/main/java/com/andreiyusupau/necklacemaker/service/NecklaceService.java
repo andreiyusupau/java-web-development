@@ -29,7 +29,6 @@ public class NecklaceService {
     }
 
     public double getNecklaceMass() {
-        System.out.println(necklace.getGems().get(0).getMass());
         return necklaceCalculator.calculateMass(necklace);
     }
 
