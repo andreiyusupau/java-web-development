@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class NecklaceBuilderTest {
 
     @Test
-    void shouldAddNewGem(){
+    void testAddGemShouldAddNewGem(){
         NecklaceBuilder necklaceBuilder= new NecklaceBuilder();
         necklaceBuilder.addGem(new Gem(Gem.GemType.RUBY,2,new BigDecimal(250)));
         int sizeAfterGemAdd=necklaceBuilder.build()

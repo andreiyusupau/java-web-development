@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 
 public class ConsoleGemDAO implements DAO<Gem> {
 
+    private static final String POSITIVE_DOUBLE_REGEX="\\d{1,9}(\\.\\d{1,9})?";
+
     @Override
     public Gem get() {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FilterInputStream(System.in) {
@@ -64,7 +66,7 @@ public class ConsoleGemDAO implements DAO<Gem> {
     public double readMass(BufferedReader bufferedReader) throws IOException {
         while (true) {
             String gemMassInput = bufferedReader.readLine();
-            if (gemMassInput.matches("\\d{1,9}(\\.\\d{1,9})?")) {
+            if (gemMassInput.matches(POSITIVE_DOUBLE_REGEX)) {
                 double gemMass = Double.parseDouble(gemMassInput);
                 if (gemMass > 0) {
                     return gemMass;
@@ -80,7 +82,7 @@ public class ConsoleGemDAO implements DAO<Gem> {
     public BigDecimal readPrice(BufferedReader bufferedReader) throws IOException {
         while (true) {
             String gemPriceInput = bufferedReader.readLine();
-            if (gemPriceInput.matches("\\d{1,9}(\\.\\d{1,9})?")) {
+            if (gemPriceInput.matches(POSITIVE_DOUBLE_REGEX)) {
                 BigDecimal gemPrice = new BigDecimal(gemPriceInput);
                 if (gemPrice.compareTo(BigDecimal.ZERO) > 0) {
                     return gemPrice;

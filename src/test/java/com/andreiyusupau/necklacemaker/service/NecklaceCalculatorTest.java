@@ -12,7 +12,7 @@ public class NecklaceCalculatorTest {
     private final NecklaceCalculator necklaceCalculator = new NecklaceCalculator();
 
     @Test
-    void shouldReturnPriceEqualTen() {
+    void testCalculatePriceShouldReturnPriceEqualTen() {
         final NecklaceBuilder necklaceBuilder = new NecklaceBuilder();
         necklaceBuilder.addGem(new Gem(Gem.GemType.RUBY, 2, new BigDecimal("1.2")));
         necklaceBuilder.addGem(new Gem(Gem.GemType.SAPPHIRE, 2, new BigDecimal("3.3")));
@@ -25,7 +25,7 @@ public class NecklaceCalculatorTest {
     }
 
     @Test
-    void shouldReturnPriceEqualZero() {
+    void testCalculatePriceShouldReturnPriceEqualZero() {
         final NecklaceBuilder necklaceBuilder = new NecklaceBuilder();
         Necklace necklace = necklaceBuilder.build();
         BigDecimal price = necklaceCalculator.calculatePrice(necklace);
@@ -33,7 +33,7 @@ public class NecklaceCalculatorTest {
     }
 
     @Test
-    void shouldReturnMassEqualThirtyTwo() {
+    void testCalculateMassShouldReturnMassEqualThirtyTwo() {
         final NecklaceBuilder necklaceBuilder = new NecklaceBuilder();
         necklaceBuilder.addGem(new Gem(Gem.GemType.RUBY, 2.2, new BigDecimal("1.2")));
         necklaceBuilder.addGem(new Gem(Gem.GemType.SAPPHIRE, 7.8, new BigDecimal("3.3")));
@@ -46,7 +46,7 @@ public class NecklaceCalculatorTest {
     }
 
     @Test
-    void shouldReturnMassEqualZero() {
+    void testCalculateMassShouldReturnMassEqualZero() {
         final NecklaceBuilder necklaceBuilder = new NecklaceBuilder();
         Necklace necklace = necklaceBuilder.build();
         double mass = necklaceCalculator.calculateMass(necklace);

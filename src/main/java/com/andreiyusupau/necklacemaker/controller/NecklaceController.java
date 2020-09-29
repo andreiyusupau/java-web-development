@@ -10,6 +10,7 @@ public class NecklaceController {
 
     private final NecklaceService necklaceService;
     private final View view;
+    private static final String MENU_REGEX="[0-2]";
 
     public NecklaceController(NecklaceService necklaceService, View view) {
         this.necklaceService = necklaceService;
@@ -25,7 +26,7 @@ public class NecklaceController {
     private void process() {
         boolean exit = false;
         while (!exit) {
-            int input = view.read("[0-2]");
+            int input = view.read(MENU_REGEX);
             switch (input) {
                 case 1:
                     necklaceService.addGem();

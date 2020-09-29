@@ -12,17 +12,21 @@ import com.andreiyusupau.necklacemaker.view.View;
 import com.andreiyusupau.necklacemaker.view.ViewFactory;
 
 public class Main {
+
+    private static final String DAO_TYPE="dao.type";
+    private static final String VIEW_TYPE="view.type";
+
     public static void main(String[] args) {
         run();
     }
 
     public static void run(){
         PropertiesLoader propertiesLoader = new PropertiesLoader();
-        DAO<Gem> gemDAO= DAOFactory.getDAO(propertiesLoader.getProperty("dao.type"));
+        DAO<Gem> gemDAO= DAOFactory.getDAO(propertiesLoader.getProperty(DAO_TYPE));
         NecklaceBuilder necklaceBuilder= new NecklaceBuilder();
         NecklaceCalculator necklaceCalculator=new NecklaceCalculator();
         NecklaceService necklaceService=new NecklaceService(necklaceBuilder,necklaceCalculator,gemDAO);
-        View view= ViewFactory.getView(propertiesLoader.getProperty("view.type"));
+        View view= ViewFactory.getView(propertiesLoader.getProperty(VIEW_TYPE));
         NecklaceController necklaceController= new NecklaceController(necklaceService,view);
         necklaceController.init();
     }
