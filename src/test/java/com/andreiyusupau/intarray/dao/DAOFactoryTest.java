@@ -1,10 +1,9 @@
 package com.andreiyusupau.intarray.dao;
 
-import com.andreiyusupau.intarray.view.NoSuchViewImplementationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ViewFactoryTest {
+public class DAOFactoryTest {
 
     @Test
     void shouldThrowException(){

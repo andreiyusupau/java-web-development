@@ -6,18 +6,15 @@ public class InsertionsArraySorter implements ArraySorter {
 
     @Override
     public Array sort(Array array) {
-        return new Array(sort(array.getNumbers()));
-    }
-
-    private int[] sort(int[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int value = array[i];
+        for (int i = 1; i < array.length(); i++) {
+            int value = array.get(i);
             int j = i;
-            while (j > 0 && array[j - 1] > value) {
-                array[j] = array[j - 1];
+            while (j > 0 && array.get(j - 1) > value) {
+                int temp = array.get(j - 1);
+                array.set(j, temp);
                 j--;
             }
-            array[j] = value;
+            array.set(j, value);
         }
         return array;
     }

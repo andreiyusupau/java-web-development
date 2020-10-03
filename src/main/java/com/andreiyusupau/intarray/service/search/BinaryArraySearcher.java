@@ -6,20 +6,19 @@ public class BinaryArraySearcher implements ArraySearcher {
 
     @Override
     public int search(Array array, int value) {
-        return binarySearch(array.getNumbers(), value);
-    }
-
-    private int binarySearch(int[] sortedArray, int value) {
+        if (array.length() < 1) {
+            return -1;
+        }
         int low = 0;
-        int high = sortedArray.length - 1;
+        int high = array.length() - 1;
         int index = -1;
         while (low <= high) {
             int mid = (low + high) / 2;
-            if (sortedArray[mid] < value) {
+            if (array.get(mid) < value) {
                 low = mid + 1;
-            } else if (sortedArray[mid] > value) {
+            } else if (array.get(mid) > value) {
                 high = mid - 1;
-            } else if (sortedArray[mid] == value) {
+            } else if (array.get(mid) == value) {
                 index = mid;
                 break;
             }

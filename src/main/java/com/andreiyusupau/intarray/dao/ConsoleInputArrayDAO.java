@@ -12,10 +12,10 @@ import java.util.List;
 
 public class ConsoleInputArrayDAO implements DAO<Array> {
 
-    private static final String NUMBER_REGEX="-?\\d{1,9}";
+    private static final String NUMBER_REGEX = "-?\\d{1,9}";
 
     @Override
-    public Array get() {
+    public Array get() throws DataReadException {
         List<Integer> list = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FilterInputStream(System.in) {
             @Override
@@ -23,8 +23,8 @@ public class ConsoleInputArrayDAO implements DAO<Array> {
                 //Prevent closing System.in
             }
         }))) {
+            System.out.println("Enter the value or type \"exit\":");
             while (true) {
-                System.out.println("Enter the value or type \"exit\":");
                 String input = bufferedReader.readLine();
                 if (input.matches(NUMBER_REGEX)) {
                     list.add(Integer.valueOf(input));
@@ -35,9 +35,8 @@ public class ConsoleInputArrayDAO implements DAO<Array> {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading input.");
+            throw new DataReadException("Error reading from file.", e);
         }
-        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.andreiyusupau.intarray.model;
 
+import java.util.Arrays;
 
 public class Array {
 
@@ -12,24 +13,12 @@ public class Array {
         this.numbers = numbers;
     }
 
-    public int[] getNumbers() {
-        return numbers;
+    public int get(int index) {
+        return numbers[index];
     }
 
-    public int getNumber(int index){
-        if(index<numbers.length){
-            return numbers[index];
-        }else {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-    }
-
-    public void setNumber(int index, int newValue){
-        if(index<numbers.length){
-            numbers[index]=newValue;
-        }else {
-            throw new ArrayIndexOutOfBoundsException();
-        }
+    public void set(int index, int newValue) {
+        numbers[index] = newValue;
     }
 
     @Override
@@ -56,11 +45,7 @@ public class Array {
 
     @Override
     public int hashCode() {
-        int result=1;
-        for(int i=0;i<this.numbers.length;i++){
-            result+=(i+1)*this.numbers[i]+31;
-        }
-        return result;
+        return Arrays.hashCode(numbers);
     }
 
     @Override
@@ -76,5 +61,9 @@ public class Array {
         }
         sb.append('}');
         return sb.toString();
+    }
+
+    public int length() {
+        return numbers != null ? numbers.length : -1;
     }
 }

@@ -20,17 +20,16 @@ public class ConsoleView implements View {
                 //prevent closing System.in
             }
         }))) {
-            while (true){
-            String input = bufferedReader.readLine();
-            if (input.matches(regex)) {
-                return Integer.parseInt(input);
-            }else {
-                System.err.println("Please enter a valid number");
-            }
+            while (true) {
+                String input = bufferedReader.readLine();
+                if (input.matches(regex)) {
+                    return Integer.parseInt(input);
+                } else {
+                    System.err.println("Please enter a valid number");
+                }
             }
         } catch (IOException e) {
-            System.err.println("Error reading input.");
+            throw new UserInputReadException("Error reading user input",e);
         }
-        return -1;
     }
 }

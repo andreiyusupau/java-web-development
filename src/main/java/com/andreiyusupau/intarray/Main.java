@@ -16,17 +16,17 @@ import com.andreiyusupau.intarray.view.ViewFactory;
 public class Main {
 
     public static void main(String[] args) {
-       run();
+        run();
     }
 
-    private static void run(){
-        PropertiesLoader propertiesLoader= new PropertiesLoader();
-        DAO<Array> arrayDAO= DAOFactory.getDAO(propertiesLoader.getProperty("dao.type"));
-        View view= ViewFactory.getView(propertiesLoader.getProperty("view.type"));
-        ArraySorter arraySorter= ArraySorterFactory.getArraySorter(propertiesLoader.getProperty("arraysorter.type"));
-        ArraySearcher arraySearcher=ArraySearcherFactory.getArraySearcher(propertiesLoader.getProperty("arraysearcher.type"));
-        ArrayService arrayService=new ArrayService(arraySorter,arraySearcher,arrayDAO);
-        ArrayController arrayController=new ArrayController(arrayService,view);
+    private static void run() {
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        DAO<Array> arrayDAO = DAOFactory.getDAO(propertiesLoader.getProperty("dao.type"));
+        View view = ViewFactory.getView(propertiesLoader.getProperty("view.type"));
+        ArraySorter arraySorter = ArraySorterFactory.getArraySorter(propertiesLoader.getProperty("arraysorter.type"));
+        ArraySearcher arraySearcher = ArraySearcherFactory.getArraySearcher(propertiesLoader.getProperty("arraysearcher.type"));
+        ArrayService arrayService = new ArrayService(arraySorter, arraySearcher, arrayDAO);
+        ArrayController arrayController = new ArrayController(arrayService, view);
         arrayController.init();
     }
 }

@@ -7,15 +7,15 @@ import org.junit.jupiter.api.Test;
 public class InsertionArraySorterTest {
 
     @Test
-   void shouldReturnSortedArray(){
+    void shouldReturnSortedArray() {
         //given
-        ArraySorter arraySorter=new InsertionsArraySorter();
-        int[] numbers = new int[]{28,-13,85,33,9,-2,-12,0,58,95};
+        ArraySorter arraySorter = new InsertionsArraySorter();
+        int[] numbers = new int[]{28, -13, 85, 33, 9, -2, -12, 0, 58, 95};
         Array array = new Array(numbers);
         //when
-        array=arraySorter.sort(array);
+        array = arraySorter.sort(array);
         //then
-        int[] expected = new int[]{-13,-12,-2,0,9,28,33,58,85,95};
-        Assertions.assertArrayEquals(expected,array.getNumbers());
+        Array expected = new Array(new int[]{-13, -12, -2, 0, 9, 28, 33, 58, 85, 95});
+        Assertions.assertEquals(expected, array);
     }
 }

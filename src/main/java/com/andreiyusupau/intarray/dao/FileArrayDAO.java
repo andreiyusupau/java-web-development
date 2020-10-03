@@ -10,27 +10,27 @@ import java.util.List;
 
 public class FileArrayDAO implements DAO<Array> {
 
-    private static final String NUMBER_REGEX="-?\\d{1,9}";
-    private static final String FILEPATH="numbers.data";
+    private static final String NUMBER_REGEX = "-?\\d{1,9}";
+    private static final String FILEPATH = "numbers.data";
 
     @Override
-    public Array get() {
+    public Array get() throws DataReadException {
         File file = new File(FILEPATH);
-        List<Integer> list=new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         if (file.exists() && file.length() != 0) {
-            try( BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String nextLine;
                 while ((nextLine = bufferedReader.readLine()) != null) {
-                    if(nextLine.matches(NUMBER_REGEX)){
+                    if (nextLine.matches(NUMBER_REGEX)) {
                         list.add(Integer.valueOf(nextLine));
-                    }else {
-                        throw new NumberFormatException();
+                    } else {
+                        throw new DataReadException("Error reading from file. Wrong number format.");
                     }
                 }
             } catch (FileNotFoundException e) {
-                System.err.println("File with numbers not found.");
+                throw new DataReadException("Error reading from file. File not found.", e);
             } catch (IOException e) {
-                System.err.println("Error reading file with numbers.");
+                throw new DataReadException("Error reading from file.", e);
             }
         }
         return new Array(ArrayConverter.toPrimitive(list));

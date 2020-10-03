@@ -23,18 +23,18 @@ public class ArrayService {
     }
 
     public void sort() {
-        if(array!=null){
+        if (array != null) {
             arraySorter.sort(array);
-        }else {
-            System.err.println("Array is null.");
+        } else {
+            System.err.println("Array is null. First create an array.");
         }
     }
 
     public int search(int value) {
-        if(array!=null){
+        if (array != null) {
             return arraySearcher.search(array, value);
-        }else {
-            System.err.println("Array is null.");
+        } else {
+            System.err.println("Array is null. First create an array.");
             return -1;
         }
     }
