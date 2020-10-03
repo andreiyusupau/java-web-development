@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class InsertionArraySorterTest {
 
     @Test
-    void shouldReturnSortedArray() {
+    void testSortShouldReturnSortedArray() {
         //given
         ArraySorter arraySorter = new InsertionsArraySorter();
         int[] numbers = new int[]{28, -13, 85, 33, 9, -2, -12, 0, 58, 95};

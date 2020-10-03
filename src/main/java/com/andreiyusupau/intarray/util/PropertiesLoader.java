@@ -6,7 +6,9 @@ import java.util.Properties;
 
 public class PropertiesLoader {
 
+    public static final String APPLICATION_PROPERTIES = "application.properties";
     private final Properties properties = new Properties();
+
 
     public PropertiesLoader() {
         load();
@@ -15,7 +17,7 @@ public class PropertiesLoader {
     private void load() {
         try (InputStream inputStream = this.getClass()
                 .getClassLoader()
-                .getResourceAsStream("application.properties")) {
+                .getResourceAsStream(APPLICATION_PROPERTIES)) {
             if (inputStream != null) {
                 properties.load(inputStream);
             } else {

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class ArraySearcherFactoryTest {
 
     @Test
-    void shouldThrowException(){
+    void testGetArraySearcherShouldThrowException(){
         Assertions.assertThrows(NoSuchArraySorterImplementationException.class,()-> ArraySearcherFactory.getArraySearcher("Definitely non existent arraySearcher"));
     }
 }

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class BinaryArraySearcherTest {
 
     @Test
-    void shouldReturnMinusOne() {
+    void testSearchShouldReturnMinusOne() {
         //given
         ArraySearcher arraySearcher = new BinaryArraySearcher();
         int[] numbers = new int[]{1, 2, 3, 4, 5, 6, 27, 28, 29, 30};
@@ -19,7 +19,7 @@ public class BinaryArraySearcherTest {
     }
 
     @Test
-    void shouldReturnSix() {
+    void testSearchShouldReturnSix() {
         //given
         ArraySearcher arraySearcher = new BinaryArraySearcher();
         int[] numbers = new int[]{-1, 0, 2, 14, 35, 36, 47, 58, 61, 100};

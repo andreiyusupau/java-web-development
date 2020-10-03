@@ -9,7 +9,7 @@ import java.util.List;
 public class ArrayConverterTest {
 
     @Test
-    void shouldReturnPrimitiveArray(){
+    void testToPrimitiveShouldReturnPrimitiveArray(){
         //given
         int [] givenArray= new int[]{1,2,3,4,5,-29};
         List<Integer> integerList= new ArrayList<>();
