@@ -1,11 +1,12 @@
 package com.andreiyusupau.stringprocessor.util;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesLoader {
+
+    public static final String APPLICATION_PROPERTIES = "application.properties";
     private final Properties properties = new Properties();
 
     public PropertiesLoader() {
@@ -13,26 +14,16 @@ public class PropertiesLoader {
     }
 
     private void load() {
-        InputStream inputStream = null;
-        try {
-            inputStream = this.getClass()
-                    .getClassLoader()
-                    .getResourceAsStream("application.properties");
+        try (InputStream inputStream = this.getClass()
+                .getClassLoader()
+                .getResourceAsStream(APPLICATION_PROPERTIES)) {
             if (inputStream != null) {
                 properties.load(inputStream);
             } else {
-                throw new FileNotFoundException("Properties file not found");
+                throw new PropertyLoadException("Properties file not found");
             }
         } catch (IOException e) {
-            System.err.println("Error reading properties");
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                System.err.println("Error closing stream");
-            }
+            throw new PropertyLoadException("Error reading properties file", e);
         }
     }
 
@@ -40,7 +31,7 @@ public class PropertiesLoader {
         if (properties.containsKey(name)) {
             return properties.getProperty(name);
         } else {
-            throw new NoSuchPropertyException("Property with name \"" + name + "\" does not exists.");
+            throw new PropertyLoadException("Property with name \"" + name + "\" does not exists.");
         }
     }
 

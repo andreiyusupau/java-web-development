@@ -12,22 +12,20 @@ public class ConsoleStringDAO implements DAO<StringInputParameters> {
 
     @Override
     public StringInputParameters get() {
-
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Please, input a new String:");
             String input = readString(bufferedReader);
+            System.out.println("Enter a character with which a symbol in every word will be replaced:");
             char charToReplace = readChar(bufferedReader);
+            System.out.println("Enter a position of the symbol to replace in every word::");
             int charPosition = readNumber(bufferedReader);
             return new StringInputParameters(input, charToReplace, charPosition);
-
         } catch (IOException e) {
-            e.printStackTrace();
+           throw new DataAccessException("Error reading input from console",e);
         }
-
-        return null;
     }
 
-    public String readString(BufferedReader bufferedReader) throws IOException {
+    private String readString(BufferedReader bufferedReader) throws IOException {
         while (true) {
             String stringInput = bufferedReader.readLine();
             if (!stringInput.equals("")) {
@@ -38,7 +36,7 @@ public class ConsoleStringDAO implements DAO<StringInputParameters> {
         }
     }
 
-    public char readChar(BufferedReader bufferedReader) throws IOException {
+    private char readChar(BufferedReader bufferedReader) throws IOException {
         while (true) {
             String charInput = bufferedReader.readLine();
             if (charInput.length() == 1) {
@@ -49,7 +47,7 @@ public class ConsoleStringDAO implements DAO<StringInputParameters> {
         }
     }
 
-    public int readNumber(BufferedReader bufferedReader) throws IOException {
+    private int readNumber(BufferedReader bufferedReader) throws IOException {
         while (true) {
             String number = bufferedReader.readLine();
             if (number.matches(POSITIVE_INTEGER_REGEX)) {

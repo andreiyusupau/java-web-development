@@ -14,16 +14,16 @@ import com.andreiyusupau.stringprocessor.view.ViewFactory;
 public class Main {
 
     public static void main(String[] args) {
-run();
+        run();
     }
 
-    public static void run(){
-        PropertiesLoader propertiesLoader=new PropertiesLoader();
-        DAO<StringInputParameters> stringInputParametersDAO= DAOFactory.getDAO(propertiesLoader.getProperty("dao.type"));
-        SymbolReplacer symbolReplacer= SymbolReplacerFactory.getSymbolReplacer(propertiesLoader.getProperty("symbolreplacer.type"));
-        StringProcessingService stringProcessingService=new StringProcessingService(symbolReplacer,stringInputParametersDAO);
-        View view= ViewFactory.getView(propertiesLoader.getProperty("view.type"));
-        StringController stringController=new StringController(stringProcessingService,view);
+    public static void run() {
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        DAO<StringInputParameters> stringInputParametersDAO = DAOFactory.getDAO(propertiesLoader.getProperty("dao.type"));
+        SymbolReplacer symbolReplacer = SymbolReplacerFactory.getSymbolReplacer(propertiesLoader.getProperty("symbolreplacer.type"));
+        StringProcessingService stringProcessingService = new StringProcessingService(symbolReplacer, stringInputParametersDAO);
+        View view = ViewFactory.getView(propertiesLoader.getProperty("view.type"));
+        StringController stringController = new StringController(stringProcessingService, view);
         stringController.process();
     }
 }
