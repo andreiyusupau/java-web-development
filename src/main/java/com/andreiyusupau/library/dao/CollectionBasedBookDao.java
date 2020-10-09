@@ -4,6 +4,8 @@ import com.andreiyusupau.library.dao.exception.DataAccessException;
 import com.andreiyusupau.library.dao.specification.Specification;
 import com.andreiyusupau.library.dao.util.IdGenerator;
 import com.andreiyusupau.library.model.Book;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +16,7 @@ public class CollectionBasedBookDao implements Dao<Book> {
 
     private final List<Book> bookList = new ArrayList<>();
     private final IdGenerator idGenerator;
+    private static final Logger logger = LogManager.getLogger(CollectionBasedBookDao.class);
 
     public CollectionBasedBookDao(IdGenerator idGenerator) {
         this.idGenerator = idGenerator;
@@ -24,8 +27,10 @@ public class CollectionBasedBookDao implements Dao<Book> {
         if (!bookList.contains(bookToAdd)) {
             Book book = getBookWithId(bookToAdd);
             bookList.add(book);
+            logger.info("Book "+book+" has been added to the collection.");
             return book.getId();
         } else {
+            logger.error("Book "+bookToAdd+" already exists.");
             throw new DataAccessException("Can't add " + bookToAdd.toString() + " because it already exists.");
         }
     }
@@ -41,12 +46,13 @@ public class CollectionBasedBookDao implements Dao<Book> {
 
     @Override
     public boolean remove(long id) {
-        Collection<Book> book2 = new HashSet<>();
         for (Book book : bookList) {
             if (book.getId() == id) {
+                logger.info("Book with id "+id+" has been removed from the collection.");
                 return bookList.remove(book);
             }
         }
+        logger.error("Book with id "+id+" doesn't exist in the collection.");
         throw new DataAccessException("Can't remove book with id=" + id + " because it doesn't exist.");
     }
 
