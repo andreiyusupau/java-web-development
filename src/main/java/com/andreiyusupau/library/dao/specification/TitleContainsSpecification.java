@@ -2,10 +2,7 @@ package com.andreiyusupau.library.dao.specification;
 
 import com.andreiyusupau.library.model.Book;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class TitleContainsSpecification implements Specification<Book> {
+public class TitleContainsSpecification extends BasicSpecification<Book> {
 
     private final String title;
 
@@ -14,15 +11,7 @@ public class TitleContainsSpecification implements Specification<Book> {
     }
 
     @Override
-    public List<Book> specify(List<Book> t) {
-        List<Book> books = new ArrayList<>();
-        for (Book book : t) {
-            if (book.getTitle().contains(title)) {
-                books.add(book);
-            }
-        }
-        return books;
+    public boolean isSatisfactory(Book book) {
+        return book.getTitle().contains(title);
     }
-
-
 }

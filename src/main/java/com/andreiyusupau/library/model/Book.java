@@ -2,14 +2,11 @@ package com.andreiyusupau.library.model;
 
 public class Book {
 
-    private long id;
-    private String title;
-    private String authors;
-    private int numberOfPages;
-    private String publisher;
-
-    public Book() {
-    }
+    private final long id;
+    private final String title;
+    private final String authors;
+    private final int numberOfPages;
+    private final String publisher;
 
     public Book(long id, String title, String authors, int numberOfPages, String publisher) {
         this.id = id;
@@ -23,40 +20,20 @@ public class Book {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getAuthors() {
         return authors;
     }
 
-    public void setAuthors(String authors) {
-        this.authors = authors;
-    }
-
     public int getNumberOfPages() {
         return numberOfPages;
     }
 
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
     public String getPublisher() {
         return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
     }
 
     @Override
@@ -84,7 +61,7 @@ public class Book {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Book{");
+        final StringBuilder sb = new StringBuilder("Book{");
         sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", authors='").append(authors).append('\'');

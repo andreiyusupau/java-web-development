@@ -1,6 +1,8 @@
 package com.andreiyusupau.library.dao;
 
+import com.andreiyusupau.library.dao.exception.DataAccessException;
 import com.andreiyusupau.library.dao.specification.Specification;
+import com.andreiyusupau.library.dao.util.IdGenerator;
 import com.andreiyusupau.library.model.Book;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class CollectionBasedBookDao implements Dao<Book> {
 
     @Override
     public boolean remove(long id) {
-        Collection<Book> book2=new HashSet<>();
+        Collection<Book> book2 = new HashSet<>();
         for (Book book : bookList) {
             if (book.getId() == id) {
                 return bookList.remove(book);

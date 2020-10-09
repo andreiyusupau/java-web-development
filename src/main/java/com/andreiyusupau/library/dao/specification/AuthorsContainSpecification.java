@@ -2,7 +2,7 @@ package com.andreiyusupau.library.dao.specification;
 
 import com.andreiyusupau.library.model.Book;
 
-public class AuthorsContainSpecification extends BasicSpecification<Book>{
+public class AuthorsContainSpecification extends BasicSpecification<Book> {
 
     private final String author;
 

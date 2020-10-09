@@ -12,6 +12,6 @@ public class PagesMoreThanSpecification extends BasicSpecification<Book> {
 
     @Override
     public boolean isSatisfactory(Book book) {
-        return book.getNumberOfPages()>numberOfPages;
+        return book.getNumberOfPages() > numberOfPages;
     }
 }

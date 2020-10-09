@@ -6,11 +6,11 @@ import java.util.List;
 public abstract class BasicSpecification<T> implements Specification<T> {
 
     @Override
-    public List<T> specify(List<T> list){
+    public List<T> specify(List<T> list) {
         List<T> result = new ArrayList<>();
         for (T element : list) {
             if (isSatisfactory(element)) {
-               result.add(element);
+                result.add(element);
             }
         }
         return result;

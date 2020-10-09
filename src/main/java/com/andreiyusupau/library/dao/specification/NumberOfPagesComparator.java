@@ -4,7 +4,7 @@ import com.andreiyusupau.library.model.Book;
 
 import java.util.Comparator;
 
-public class NumberOfPagesComparator implements Comparator<Book>{
+public class NumberOfPagesComparator implements Comparator<Book> {
 
     private final boolean ascending;
 
@@ -13,9 +13,9 @@ public class NumberOfPagesComparator implements Comparator<Book>{
     }
 
     @Override
-        public int compare(Book firstBook, Book secondBook) {
-            int numberOfPagesDelta=firstBook.getNumberOfPages() - secondBook.getNumberOfPages();
-            return ascending ? numberOfPagesDelta : -numberOfPagesDelta;
-        }
+    public int compare(Book firstBook, Book secondBook) {
+        int numberOfPagesDelta = firstBook.getNumberOfPages() - secondBook.getNumberOfPages();
+        return ascending ? numberOfPagesDelta : -numberOfPagesDelta;
     }
+}
 

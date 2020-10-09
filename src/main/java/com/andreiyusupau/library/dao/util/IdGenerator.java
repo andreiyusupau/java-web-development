@@ -1,4 +1,4 @@
-package com.andreiyusupau.library.dao;
+package com.andreiyusupau.library.dao.util;
 
 public interface IdGenerator {
 
