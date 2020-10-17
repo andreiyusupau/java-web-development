@@ -1,33 +1,30 @@
 package com.andreiyusupau.library.dao.specification;
 
 import com.andreiyusupau.library.model.Book;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PagesMoreThanSpecificationTest {
+class PagesMoreThanSpecificationTest {
+
+private final Specification<Book> pagesMoreThanSpecification = new PagesMoreThanSpecification(100);
 
     @Test
-    void testSpecifyShouldReturnListOfBooksWhichHaveMoreThanOneHundredPages() {
-        List<Book> initialList = new ArrayList<>();
-        Book firstBook = new Book(-1, "FirstBook", "Author1, Author2", 10, "MyPublisher");
-        Book secondBook = new Book(-1, "SecondBook", "Author3, Author4", 455, "MyPublisher");
-        Book thirdBook = new Book(-1, "ThirdBook", "Author3, Author1", 78, "MyPublisher");
-        Book fourthBook = new Book(-1, "FourthBook", "Author4, Author5", 300, "MyPublisher");
-        initialList.add(firstBook);
-        initialList.add(secondBook);
-        initialList.add(thirdBook);
-        initialList.add(fourthBook);
+    void specifyShouldReturnFalse() {
+        Book book = new Book(-1, "FirstBook", "Author1, Author2", 10, "MyPublisher");
 
-        Specification<Book> pagesMoreThanSpecification = new PagesMoreThanSpecification(100);
-        List<Book> filteredList = pagesMoreThanSpecification.specify(initialList);
+        boolean specified=pagesMoreThanSpecification.specified(book);
 
-        List<Book> expectedList = new ArrayList<>();
-        expectedList.add(secondBook);
-        expectedList.add(fourthBook);
+        assertFalse(specified);
+    }
 
-        Assertions.assertEquals(expectedList, filteredList);
+    @Test
+    void specifyShouldReturnTrue() {
+        Book book = new Book(-1, "SecondBook", "Author3, Author4", 455, "MyPublisher");
+
+        boolean specified=pagesMoreThanSpecification.specified(book);
+
+        assertTrue(specified);
     }
 }

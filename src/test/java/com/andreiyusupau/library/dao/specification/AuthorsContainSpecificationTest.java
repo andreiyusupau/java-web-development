@@ -1,33 +1,30 @@
 package com.andreiyusupau.library.dao.specification;
 
 import com.andreiyusupau.library.model.Book;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AuthorsContainSpecificationTest {
+class AuthorsContainSpecificationTest {
 
     @Test
-    void testSpecifyShouldReturnListFilteredByAuthor() {
-        List<Book> initialList = new ArrayList<>();
-        Book firstBook = new Book(-1, "FirstBook", "Author1, Author2", 10, "MyPublisher");
-        Book secondBook = new Book(-1, "SecondBook", "Author3, Author4", 455, "MyPublisher");
-        Book thirdBook = new Book(-1, "ThirdBook", "Author3, Author1", 78, "MyPublisher");
-        Book fourthBook = new Book(-1, "FourthBook", "Author4, Author5", 300, "MyPublisher");
-        initialList.add(firstBook);
-        initialList.add(secondBook);
-        initialList.add(thirdBook);
-        initialList.add(fourthBook);
-
+    void specifyShouldReturnTrue() {
+        Book book = new Book(-1, "FirstBook", "Author1, Author3", 10, "MyPublisher");
         Specification<Book> authorsContainSpecification = new AuthorsContainSpecification("Author3");
-        List<Book> filteredList = authorsContainSpecification.specify(initialList);
 
-        List<Book> expectedList = new ArrayList<>();
-        expectedList.add(secondBook);
-        expectedList.add(thirdBook);
+        boolean specified=  authorsContainSpecification.specified(book);
 
-        Assertions.assertEquals(expectedList, filteredList);
+        assertTrue(specified);
+    }
+
+    @Test
+    void specifyShouldReturnFalse() {
+        Book book = new Book(-1, "SecondBook", "Author2, Author4", 455, "MyPublisher");
+        Specification<Book> authorsContainSpecification = new AuthorsContainSpecification("Author3");
+
+        boolean specified=  authorsContainSpecification.specified(book);
+
+        assertFalse(specified);
     }
 }

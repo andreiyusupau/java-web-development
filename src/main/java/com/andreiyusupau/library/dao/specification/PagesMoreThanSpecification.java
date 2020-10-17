@@ -2,7 +2,7 @@ package com.andreiyusupau.library.dao.specification;
 
 import com.andreiyusupau.library.model.Book;
 
-public class PagesMoreThanSpecification extends BasicSpecification<Book> {
+public class PagesMoreThanSpecification implements Specification<Book> {
 
     private final int numberOfPages;
 
@@ -11,7 +11,7 @@ public class PagesMoreThanSpecification extends BasicSpecification<Book> {
     }
 
     @Override
-    public boolean isSatisfactory(Book book) {
+    public boolean specified(Book book) {
         return book.getNumberOfPages() > numberOfPages;
     }
 }

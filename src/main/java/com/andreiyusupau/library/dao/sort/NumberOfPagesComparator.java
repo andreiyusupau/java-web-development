@@ -1,4 +1,4 @@
-package com.andreiyusupau.library.dao.specification;
+package com.andreiyusupau.library.dao.sort;
 
 import com.andreiyusupau.library.model.Book;
 

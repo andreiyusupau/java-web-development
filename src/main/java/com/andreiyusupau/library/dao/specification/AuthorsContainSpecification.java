@@ -2,7 +2,7 @@ package com.andreiyusupau.library.dao.specification;
 
 import com.andreiyusupau.library.model.Book;
 
-public class AuthorsContainSpecification extends BasicSpecification<Book> {
+public class AuthorsContainSpecification implements Specification<Book> {
 
     private final String author;
 
@@ -11,8 +11,9 @@ public class AuthorsContainSpecification extends BasicSpecification<Book> {
     }
 
     @Override
-    public boolean isSatisfactory(Book book) {
-        return book.getAuthors().contains(author);
+    public boolean specified(Book book) {
+        String authors=book.getAuthors();
+        return authors.contains(author);
     }
 }
 

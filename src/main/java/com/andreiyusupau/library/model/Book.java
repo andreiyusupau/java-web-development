@@ -1,6 +1,6 @@
 package com.andreiyusupau.library.model;
 
-public class Book {
+public final class Book {
 
     private final long id;
     private final String title;
@@ -38,14 +38,24 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
 
         Book book = (Book) o;
 
-        if (numberOfPages != book.numberOfPages) return false;
-        if (!title.equals(book.title)) return false;
-        if (!authors.equals(book.authors)) return false;
+        if (numberOfPages != book.numberOfPages){
+            return false;
+        }
+        if (!title.equals(book.title)){
+            return false;
+        }
+        if (!authors.equals(book.authors)){
+            return false;
+        }
         return publisher.equals(book.publisher);
     }
 
@@ -61,13 +71,13 @@ public class Book {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Book{");
-        sb.append("id=").append(id);
-        sb.append(", title='").append(title).append('\'');
-        sb.append(", authors='").append(authors).append('\'');
-        sb.append(", numberOfPages=").append(numberOfPages);
-        sb.append(", publisher='").append(publisher).append('\'');
-        sb.append('}');
-        return sb.toString();
+        final StringBuilder stringBuilder = new StringBuilder("Book{");
+        stringBuilder.append("id=").append(id);
+        stringBuilder.append(", title='").append(title).append('\'');
+        stringBuilder.append(", authors='").append(authors).append('\'');
+        stringBuilder.append(", numberOfPages=").append(numberOfPages);
+        stringBuilder.append(", publisher='").append(publisher).append('\'');
+        stringBuilder.append('}');
+        return stringBuilder.toString();
     }
 }

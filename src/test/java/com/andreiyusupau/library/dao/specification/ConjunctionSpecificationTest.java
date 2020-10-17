@@ -2,39 +2,55 @@ package com.andreiyusupau.library.dao.specification;
 
 import com.andreiyusupau.library.model.Book;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public class ConjunctionSpecificationTest {
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class ConjunctionSpecificationTest {
+    @Mock
+    private Specification<Book> firstSpecification;
+    @Mock
+    private Specification<Book> secondSpecification;
+    private List<Specification<Book>> specificationList;
+    private Specification<Book> conjunctionSpecification;
+    private Book book;
+
+    @BeforeEach
+    void set(){
+        specificationList = List.of(firstSpecification, secondSpecification);
+        conjunctionSpecification = new ConjunctionSpecification(specificationList);
+        book = new Book(-1, "FirstBook", "Author1, Author2", 100, "MyPublisher");
+    }
 
     @Test
-    void testSpecifyShouldReturnListFilteredByAuthorAndSortedByNumberOfPagesAscending() {
-        List<Book> initialList = new ArrayList<>();
-        Book firstBook = new Book(-1, "FirstBook", "Author1, Author2", 10, "MyPublisher");
-        Book secondBook = new Book(-1, "SecondBook", "Author3, Author4", 455, "MyPublisher");
-        Book thirdBook = new Book(-1, "ThirdBook", "Author3, Author1", 78, "MyPublisher");
-        Book fourthBook = new Book(-1, "FourthBook", "Author4, Author3", 300, "MyPublisher");
-        initialList.add(firstBook);
-        initialList.add(secondBook);
-        initialList.add(thirdBook);
-        initialList.add(fourthBook);
+    void specifyShouldReturnTrue() {
+        when(firstSpecification.specified(any()))
+                .thenReturn(true);
+        when(secondSpecification.specified(any()))
+                .thenReturn(true);
 
-        Specification<Book> authorsContainSpecification = new AuthorsContainSpecification("Author3");
-        Comparator<Book> bookComparator = new NumberOfPagesComparator(true);
-        Specification<Book> numberOfPagesSortSpecification = new SortByNumberOfPagesSpecification(bookComparator);
-        List<Specification<Book>> specificationList=new ArrayList<>();
-        specificationList.add(authorsContainSpecification);
-        specificationList.add(numberOfPagesSortSpecification);
-        Specification<Book> conjunctionSpecification=new ConjunctionSpecification(specificationList);
-        List<Book> filteredAndSortedList = conjunctionSpecification.specify(initialList);
+        boolean specified = conjunctionSpecification.specified(book);
 
-        List<Book> expectedList = new ArrayList<>();
-        expectedList.add(thirdBook);
-        expectedList.add(fourthBook);
-        expectedList.add(secondBook);
-        Assertions.assertEquals(expectedList, filteredAndSortedList);
+        Assertions.assertTrue(specified);
+    }
+
+    @Test
+    void specifyShouldReturnFalse() {
+        when(firstSpecification.specified(any()))
+                .thenReturn(true);
+        when(secondSpecification.specified(any()))
+                .thenReturn(false);
+
+        boolean specified = conjunctionSpecification.specified(book);
+
+        Assertions.assertFalse(specified);
     }
 }

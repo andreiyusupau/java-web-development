@@ -8,8 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
 
 public class CollectionBasedBookDao implements Dao<Book> {
@@ -30,7 +29,6 @@ public class CollectionBasedBookDao implements Dao<Book> {
             logger.info("Book "+book+" has been added to the collection.");
             return book.getId();
         } else {
-            logger.error("Book "+bookToAdd+" already exists.");
             throw new DataAccessException("Can't add " + bookToAdd.toString() + " because it already exists.");
         }
     }
@@ -52,12 +50,24 @@ public class CollectionBasedBookDao implements Dao<Book> {
                 return bookList.remove(book);
             }
         }
-        logger.error("Book with id "+id+" doesn't exist in the collection.");
         throw new DataAccessException("Can't remove book with id=" + id + " because it doesn't exist.");
     }
 
     @Override
-    public List<Book> find(Specification<Book> specifications) {
-        return specifications.specify(bookList);
+    public List<Book> find(Specification<Book> specification) {
+        List<Book> specifiedBooks=new ArrayList<>();
+        for(Book book:bookList){
+            if(specification.specified(book)){
+                specifiedBooks.add(book);
+            }
+        }
+        return specifiedBooks;
+    }
+
+    @Override
+    public List<Book> findSorted(Specification<Book> specification, Comparator<Book> comparator) {
+        List<Book> sortedBooks=find(specification);
+        sortedBooks.sort(comparator);
+        return sortedBooks;
     }
 }
