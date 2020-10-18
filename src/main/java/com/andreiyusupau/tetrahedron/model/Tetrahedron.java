@@ -15,23 +15,40 @@ public final class Tetrahedron {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
+
+        Tetrahedron that = (Tetrahedron) o;
+
+        if (!pointA.equals(that.pointA)) return false;
+        if (!pointB.equals(that.pointB)) return false;
+        if (!pointC.equals(that.pointC)) return false;
+        return pointD.equals(that.pointD);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pointA.hashCode();
+        result = 31 * result + pointB.hashCode();
+        result = 31 * result + pointC.hashCode();
+        result = 31 * result + pointD.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Tetrahedron{");
+        final StringBuilder sb = new StringBuilder("Tetrahedron{");
         sb.append("pointA=").append(pointA);
         sb.append(", pointB=").append(pointB);
         sb.append(", pointC=").append(pointC);
         sb.append(", pointD=").append(pointD);
         sb.append('}');
         return sb.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        int result = pointA != null ? pointA.hashCode() : 0;
-        result = 31 * result + (pointB != null ? pointB.hashCode() : 0);
-        result = 31 * result + (pointC != null ? pointC.hashCode() : 0);
-        result = 31 * result + (pointD != null ? pointD.hashCode() : 0);
-        return result;
     }
 
     public Point getPointA() {

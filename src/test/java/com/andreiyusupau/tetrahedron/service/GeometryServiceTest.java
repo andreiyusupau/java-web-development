@@ -1,52 +1,56 @@
 package com.andreiyusupau.tetrahedron.service;
 
 import com.andreiyusupau.tetrahedron.model.Point;
-import org.junit.jupiter.api.Assertions;
+import com.andreiyusupau.tetrahedron.model.Tetrahedron;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class GeometryServiceTest {
 
     private final GeometryService geometryService = new GeometryService();
+    private final Point pointA = new Point(0, 0, 5);
+    private final Point pointB = new Point(0, 0, -5);
+    private final Point pointC = new Point(5, 0, 0);
+    private final Point pointD = new Point(0, 5, 0);
+    private final Tetrahedron tetrahedron = new Tetrahedron(pointA, pointB, pointC, pointD);
+    private final Point pointE = new Point(1, 0, 0);
+    private final Point pointF = new Point(1, 2, 0);
+    private final Point pointG = new Point(1, 0, 2);
 
     @Test
-    void testCalculateTetrahedronAreaShouldReturnNinetyThree() {
-        Point pointA = new Point(0, 0, 5);
-        Point pointB = new Point(0, 0, -5);
-        Point pointC = new Point(5, 0, 0);
-        Point pointD = new Point(0, 5, 0);
-
+    void calculateTetrahedronAreaShouldReturnNinetyThree() {
         double actualArea = geometryService.calculateTetrahedronArea(pointA, pointB, pointC, pointD);
 
-        double expectedArea = 93.3012701892219;
-        Assertions.assertEquals(expectedArea,actualArea,5*Math.ulp(actualArea));
+        assertEquals(93.3012701892219, actualArea, 5 * Math.ulp(actualArea));
     }
 
     @Test
-    void testCalculateTetrahedronVolumeShouldReturnFortyOne(){
-        Point pointA = new Point(0, 0, 5);
-        Point pointB = new Point(0, 0, -5);
-        Point pointC = new Point(5, 0, 0);
-        Point pointD = new Point(0, 5, 0);
+    void calculateTetrahedronVolumeShouldReturnFortyOne() {
+        double actualVolume = geometryService.calculateTetrahedronVolume(pointA, pointB, pointC, pointD);
 
-        double actualVolume= geometryService.calculateTetrahedronVolume(pointA, pointB, pointC, pointD);
-
-        double expectedVolume = 41.66666666666666;
-        Assertions.assertEquals(expectedVolume,actualVolume,5*Math.ulp(actualVolume));
+        assertEquals(41.66666666666666, actualVolume, 5 * Math.ulp(actualVolume));
     }
 
     @Test
-    void testCalculateTetrahedronVolumeShouldReturn(){
-        Point pointA = new Point(0, 0, 5);
-        Point pointB = new Point(0, 0, -5);
-        Point pointC = new Point(5, 0, 0);
-        Point pointD = new Point(0, 5, 0);
+    void isTetrahedron() {
+        boolean isTetrahedron = geometryService.isTetrahedron(pointA, pointB, pointC, pointD);
 
-        double actualVolume= geometryService.calculateTetrahedronVolume(pointA, pointB, pointC, pointD);
+        assertTrue(isTetrahedron);
+    }
 
-        double expectedVolume = 41.66666666666666;
-        Assertions.assertEquals(expectedVolume,actualVolume,5*Math.ulp(actualVolume));
+    @Test
+    void calculateVolumeRatioAfterThePlaneSectionShouldReturn() {
+        double volumeRatio = geometryService.calculateVolumeRatioAfterThePlaneSection(tetrahedron, pointE, pointF, pointG);
+
+        assertEquals(1.049180327868853, volumeRatio, 5 * Math.ulp(volumeRatio));
+    }
+
+    @Test
+    void isOneOfBasesOnTheCoordinatePlaneShouldReturnTrue() {
+        boolean isOnOneOfTheCoordinatePlanes = geometryService.isOneOfBasesOnTheCoordinatePlane(tetrahedron);
+
+        assertTrue(isOnOneOfTheCoordinatePlanes);
     }
 }

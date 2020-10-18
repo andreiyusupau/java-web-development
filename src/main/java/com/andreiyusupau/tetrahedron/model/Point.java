@@ -11,7 +11,7 @@ public final class Point {
         this.y = y;
         this.z = z;
     }
-//TODO:
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -47,7 +47,7 @@ public final class Point {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Point{");
+        final StringBuilder sb = new StringBuilder("Point{");
         sb.append("x=").append(x);
         sb.append(", y=").append(y);
         sb.append(", z=").append(z);
