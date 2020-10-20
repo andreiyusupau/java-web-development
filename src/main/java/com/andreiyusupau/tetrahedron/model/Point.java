@@ -20,7 +20,7 @@ public final class Point {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-      
+
         Point point = (Point) o;
 
         if (Double.compare(point.x, x) != 0) {

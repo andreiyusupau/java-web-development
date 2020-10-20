@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class GeometryService {
 
-    private static final Logger LOGGER= LogManager.getLogger(GeometryService.class);
+    private static final Logger LOGGER = LogManager.getLogger(GeometryService.class);
 
     private Point calculateVector(Point a, Point b) {
         LOGGER.info("Calculate vector from two points");
@@ -27,7 +27,7 @@ public class GeometryService {
         return new Point(x, y, z);
     }
 
-    private double calculateVectorModule(Point a) {
+    public double calculateVectorModule(Point a) {
         LOGGER.info("Calculate vector module");
         return Math.sqrt(Math.pow(a.getX(), 2) + Math.pow(a.getY(), 2) + Math.pow(a.getZ(), 2));
     }
@@ -133,17 +133,17 @@ public class GeometryService {
      * Calculates the volume ratio of two parts of tetrahedron divided by plane
      *
      * @param tetrahedron tetrahedron
-     * @param e plane point E
-     * @param f plane point F
-     * @param g plane point G
+     * @param e           plane point E
+     * @param f           plane point F
+     * @param g           plane point G
      * @return partVolume/full volume
      */
     public double calculateVolumeRatioAfterThePlaneSection(Tetrahedron tetrahedron, Point e, Point f, Point g) {
         LOGGER.info("Calculate volume ratio of two parts of the tetrahedron after plane section.");
-        Point a=tetrahedron.getPointA();
-                Point b=tetrahedron.getPointB();
-                Point c=tetrahedron.getPointC();
-                Point d=tetrahedron.getPointD();
+        Point a = tetrahedron.getPointA();
+        Point b = tetrahedron.getPointB();
+        Point c = tetrahedron.getPointC();
+        Point d = tetrahedron.getPointD();
         Optional<Point> abi = calculateIntersectionPointOfPlaneAndLine(e, f, g, a, b);
         Optional<Point> aci = calculateIntersectionPointOfPlaneAndLine(e, f, g, a, c);
         Optional<Point> adi = calculateIntersectionPointOfPlaneAndLine(e, f, g, a, d);

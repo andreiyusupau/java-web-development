@@ -2,10 +2,10 @@ package com.andreiyusupau.tetrahedron.model;
 
 public final class Tetrahedron {
 
-    private final Point pointA;
-    private final Point pointB;
-    private final Point pointC;
-    private final Point pointD;
+    private Point pointA;
+    private Point pointB;
+    private Point pointC;
+    private Point pointD;
 
     public Tetrahedron(Point pointA, Point pointB, Point pointC, Point pointD) {
         this.pointA = pointA;
@@ -16,10 +16,10 @@ public final class Tetrahedron {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
@@ -55,15 +55,31 @@ public final class Tetrahedron {
         return pointA;
     }
 
+    public void setPointA(Point pointA) {
+        this.pointA = pointA;
+    }
+
     public Point getPointB() {
         return pointB;
+    }
+
+    public void setPointB(Point pointB) {
+        this.pointB = pointB;
     }
 
     public Point getPointC() {
         return pointC;
     }
 
+    public void setPointC(Point pointC) {
+        this.pointC = pointC;
+    }
+
     public Point getPointD() {
         return pointD;
+    }
+
+    public void setPointD(Point pointD) {
+        this.pointD = pointD;
     }
 }

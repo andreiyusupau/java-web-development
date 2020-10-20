@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GeometryServiceTest {
 
     private final GeometryService geometryService = new GeometryService();
+
     private final Point pointA = new Point(0, 0, 5);
     private final Point pointB = new Point(0, 0, -5);
     private final Point pointC = new Point(5, 0, 0);
@@ -52,5 +53,12 @@ class GeometryServiceTest {
         boolean isOnOneOfTheCoordinatePlanes = geometryService.isOneOfBasesOnTheCoordinatePlane(tetrahedron);
 
         assertTrue(isOnOneOfTheCoordinatePlanes);
+    }
+
+    @Test
+    void calculateVectorModuleShouldReturn() {
+        double vectorModule = geometryService.calculateVectorModule(pointA);
+
+        assertEquals(5.0, vectorModule, 5 * Math.ulp(vectorModule));
     }
 }

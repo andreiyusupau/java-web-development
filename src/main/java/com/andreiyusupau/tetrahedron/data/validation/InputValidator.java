@@ -1,4 +1,4 @@
-package com.andreiyusupau.tetrahedron.validation;
+package com.andreiyusupau.tetrahedron.data.validation;
 
 public interface InputValidator {
 

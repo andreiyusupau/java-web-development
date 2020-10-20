@@ -1,4 +1,4 @@
-package com.andreiyusupau.tetrahedron.parser;
+package com.andreiyusupau.tetrahedron.data.parser;
 
 public interface Parser<T> {
 
