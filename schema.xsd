@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:complexType name="Candy" abstract="true">
+			<xsd:sequence>
+				<xsd:element name="Name" type="xsd:string"/>
+				<xsd:element name="Energy" type="xsd:int"/>
+				<xsd:element name="Value" type="Value"/>
+				<xsd:element name="Production">
+					<xsd:complexType>
+						<xsd:simpleContent>
+							<xsd:extension base="xsd:string">
+								<xsd:attribute name="country" type="xsd:string" use="required"/>
+							</xsd:extension>
+						</xsd:simpleContent>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Chocolate">
+		<xsd:complexContent>
+			<xsd:extension base="Candy">
+				<xsd:sequence>
+					<xsd:element name="Ingredients" type="Chocolate-ingredients"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Hard-candy">
+		<xsd:complexContent>
+			<xsd:extension base="Candy">
+				<xsd:sequence>
+					<xsd:element name="Ingredients" type="Hard-candy-ingredients"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Liquorice">
+		<xsd:complexContent>
+			<xsd:extension base="Candy">
+				<xsd:sequence>
+					<xsd:element name="Ingredients" type="Liquorice-ingredients"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Marshmallow">
+		<xsd:complexContent>
+			<xsd:extension base="Candy">
+				<xsd:sequence>
+					<xsd:element name="Ingredients" type="Marshmallow-ingredients"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Toffee">
+		<xsd:complexContent>
+			<xsd:extension base="Candy">
+				<xsd:sequence>
+					<xsd:element name="Ingredients" type="Toffee-ingredients"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Ingredients" abstract="true">
+		<xsd:sequence>
+			<xsd:element name="Water">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:int">
+							<xsd:attribute name="prepared" type="xsd:boolean" default="false"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Sugar">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:int">
+							<xsd:attribute name="type" type="xsd:string" default="white"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Chocolate-ingredients">
+		<xsd:complexContent>
+			<xsd:extension base="Ingredients">
+				<xsd:sequence>
+					<xsd:element name="Chocolate">
+						<xsd:complexType>
+							<xsd:simpleContent>
+								<xsd:extension base="xsd:int">
+									<xsd:attribute name="type" type="xsd:string" use="required"/>
+								</xsd:extension>
+							</xsd:simpleContent>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="Nuts">
+						<xsd:complexType>
+							<xsd:simpleContent>
+								<xsd:extension base="xsd:int">
+									<xsd:attribute name="type" type="xsd:string" use="required"/>
+								</xsd:extension>
+							</xsd:simpleContent>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Hard-candy-ingredients">
+		<xsd:complexContent>
+			<xsd:extension base="Ingredients">
+				<xsd:sequence>
+					<xsd:element name="Citric-acid" type="xsd:int"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Liquorice-ingredients">
+		<xsd:complexContent>
+			<xsd:extension base="Ingredients">
+				<xsd:sequence>
+					<xsd:element name="Liquorice-extract" type="xsd:int"/>
+					<xsd:element name="Starch" type="xsd:int"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Marshmallow-ingredients">
+		<xsd:complexContent>
+			<xsd:extension base="Ingredients">
+				<xsd:sequence>
+					<xsd:element name="Gelatin" type="xsd:int"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Toffee-ingredients">
+		<xsd:complexContent>
+			<xsd:extension base="Ingredients">
+				<xsd:sequence>
+					<xsd:element name="Butter" type="xsd:int"/>
+					<xsd:element name="Flour" type="xsd:int"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="Value">
+		<xsd:sequence>
+			<xsd:element name="Proteins" type="xsd:decimal"/>
+			<xsd:element name="Fats" type="xsd:decimal"/>
+			<xsd:element name="Carbohydrates" type="xsd:decimal"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="Candies">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element name="Liquorice" type="Liquorice" />
+				<xsd:element name="Toffee" type="Toffee" />
+				<xsd:element name="Marshmallow" type="Marshmallow" />
+				<xsd:element name="Chocolate" type="Chocolate" />
+				<xsd:element name="Hard-candy" type="Hard-candy" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

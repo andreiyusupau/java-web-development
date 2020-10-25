@@ -1,0 +1,87 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<Candies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation = "schema.xsd">
+    <Chocolate id="ID-1">
+        <Name>"Alpen Gold"</Name>
+        <Energy>250</Energy>
+        <Value>
+            <Proteins>4</Proteins>
+            <Fats>5</Fats>
+            <Carbohydrates>14</Carbohydrates>
+        </Value>
+        <Production country="Ukraine">"Roshen"</Production>
+        <Ingredients>
+            <Water>2</Water>
+            <Sugar>170</Sugar>
+            <Chocolate type="dark">100</Chocolate>
+            <Nuts type="forest">123</Nuts>
+        </Ingredients>
+    </Chocolate>
+
+    <Hard-candy id="ID-2">
+        <Name>"Jelly"</Name>
+        <Energy>200</Energy>
+        <Value>
+            <Proteins>2</Proteins>
+            <Fats>3</Fats>
+            <Carbohydrates>4</Carbohydrates>
+        </Value>
+        <Production country="Belarus">"Spartacus"</Production>
+        <Ingredients>
+            <Water>2</Water>
+            <Sugar>100</Sugar>
+            <Citric-acid>100</Citric-acid>
+        </Ingredients>
+    </Hard-candy>
+
+    <Liquorice id="ID-3">
+        <Name>"SomeLiquorice"</Name>
+        <Energy>150</Energy>
+        <Value>
+            <Proteins>4</Proteins>
+            <Fats>3</Fats>
+            <Carbohydrates>4</Carbohydrates>
+        </Value>
+        <Production country="Belarus">Red Foodish</Production>
+        <Ingredients>
+            <Water>2</Water>
+            <Sugar type="brown">120</Sugar>
+            <Liquorice-extract>90</Liquorice-extract>
+            <Starch>110</Starch>
+        </Ingredients>
+    </Liquorice>
+
+    <Toffee id="ID-4">
+        <Name>"Toffy"</Name>
+        <Energy>50</Energy>
+        <Value>
+            <Proteins>4</Proteins>
+            <Fats>5</Fats>
+            <Carbohydrates>15</Carbohydrates>
+        </Value>
+        <Production country="Ukraine">Roshen</Production>
+        <Ingredients>
+            <Water>2</Water>
+            <Sugar type="cane">70</Sugar>
+            <Butter>3</Butter>
+            <Flour>53</Flour>
+        </Ingredients>
+    </Toffee>
+
+    <Marshmallow id="ID-5">
+        <Name>"Marshmallow"</Name>
+        <Energy>50</Energy>
+        <Value>
+            <Proteins>4</Proteins>
+            <Fats>5</Fats>
+            <Carbohydrates>15</Carbohydrates>
+        </Value>
+        <Production country="Ukraine">Roshen</Production>
+        <Ingredients>
+            <Water>2</Water>
+            <Sugar type="brown">70</Sugar>
+            <Gelatin>3</Gelatin>
+        </Ingredients>
+    </Marshmallow>
+
+</Candies>
