@@ -2,164 +2,441 @@ package com.andreiyusupau.xmlparser.parser;
 
 import com.andreiyusupau.xmlparser.model.*;
 
-import javax.management.modelmbean.XMLParseException;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.*;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StaxParser implements XmlParser<Candy> {
 
     public Collection<Candy> parse(String inputXml) {
-        String filename="candies.xml";
+        String filename = "candies.xml";
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-       try(FileInputStream fileInputStream=new FileInputStream(filename)) {
-           XMLEventReader xmlEventReader= xmlInputFactory.createXMLEventReader(fileInputStream);
-           Collection<Candy> candyCollection=new ArrayList<>();
-           while (xmlEventReader.hasNext()){
-               XMLEvent nextEvent = xmlEventReader.nextEvent();
-               Candy candy;
+        try (FileInputStream fileInputStream = new FileInputStream(filename)) {
+            XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(fileInputStream);
+            Collection<Candy> candyCollection = new ArrayList<>();
+            while (xmlEventReader.hasNext()) {
+                XMLEvent nextEvent = xmlEventReader.nextEvent();
+                if (nextEvent.isStartElement()) {
+                    StartElement startElement = nextEvent.asStartElement();
+                    if (startElement.getAttributeByName(new QName("id")) != null) {
+                        Candy candy = parseCandy(xmlEventReader, nextEvent);
+                        candyCollection.add(candy);
+                    }
+                }
+            }
+            return candyCollection;
+        } catch (FileNotFoundException e) {
+            throw new ParserException("File not found.", e);
+        } catch (XMLStreamException e) {
+            throw new ParserException("XML exception.", e);
+        } catch (IOException e) {
+            throw new ParserException("Error reading file.", e);
+        }
 
-           }
-       } catch (FileNotFoundException e) {
-           e.printStackTrace();
-       } catch (XMLStreamException e) {
-           e.printStackTrace();
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
     }
 
-    private Candy parseCandy(XMLEventReader xmlEventReader, XMLEvent nextEvent ) throws XMLStreamException {
-        String startElementName;
-        long id;
-        String name;
-        String energy;
-        String proteins;
-        String fats;
-        String carbohydrates;
-        String production;
-        String country;
-        String water;
-        boolean waterPrepared;
-        String sugar;
-        String sugarType;
+    private Candy parseCandy(XMLEventReader xmlEventReader, XMLEvent nextEvent) throws XMLStreamException {
+        Map<String, String> candyParameters = new HashMap<>();
+        if (nextEvent.isStartElement()) {
+            StartElement startElement = nextEvent.asStartElement();
+            candyParameters.put("class", startElement.getName()
+                    .getLocalPart());
+            candyParameters.put("id", startElement.getAttributeByName(new QName("id"))
+                    .getValue());
+            while (true) {
+                nextEvent = xmlEventReader.nextEvent();
+                if (nextEvent.isStartElement()) {
+                    StartElement startElementInner = nextEvent.asStartElement();
+                    String startElementInnerName = startElementInner.getName()
+                            .getLocalPart();
 
-        if(nextEvent.isStartElement()){
-            StartElement startElement=nextEvent.asStartElement();
-            startElementName=startElement.getName()
-                    .getLocalPart();
-           id= Long.parseLong(startElement.getAttributeByName(new QName("id"))
-                   .getValue());
-            Characters nameCharacters=nextEvent.asCharacters();
-            name=nameCharacters.getData();
-           while (true){
-               nextEvent=xmlEventReader.nextEvent();
-               if(nextEvent.isStartElement()){
-                   StartElement startElementInner=nextEvent.asStartElement();
-                   String startElementInnerName= startElementInner.getName().getLocalPart();
-                   nextEvent=xmlEventReader.nextEvent();
-                   switch (startElementInnerName){
-                       case "Name": name=nextEvent.asCharacters().getData();
-                       break;
-                       case "Energy": energy=nextEvent.asCharacters().getData();
-                       break;
-                       case "Value": {
-                           while (true){
-                               nextEvent=xmlEventReader.nextEvent();
-                               if(nextEvent.isStartElement()){
-                                   StartElement startElementValue=nextEvent.asStartElement();
-                                   String startElementValueName= startElementValue.getName()
-                                           .getLocalPart();
-                                   nextEvent=xmlEventReader.nextEvent();
-                                   switch (startElementValueName){
-                                       case "Proteins":proteins=nextEvent.asCharacters()
-                                               .getData();
-                                       break;
-                                       case "Fats":fats=nextEvent.asCharacters()
-                                               .getData();
-                                           break;
-                                       case "Carbohydrates":carbohydrates=nextEvent.asCharacters()
-                                               .getData();
-                                           break;
-                                   }
-                               }else if(nextEvent.isEndElement()){
-                                   EndElement endElement=nextEvent.asEndElement();
-                                   if(endElement.getName()
-                                           .getLocalPart()
-                                           .equals("Value")){
-                                       break;
-                                   }
-                               }
-                           }
-                       }
-                       break;
-                       case "Production": {
-                           StartElement productionStartElement=nextEvent.asStartElement();
-                           country=productionStartElement.getAttributeByName(new QName("country"))
-                                   .getValue();
-                           nextEvent=xmlEventReader.nextEvent();
-                           production=nextEvent.asCharacters()
-                                   .getData();
-                       }
-                       break;
-                       case "Ingredients":{
-
-                       }
-                       break;
-                   }
-               }
-
-
-           }
-
-
+                    switch (startElementInnerName) {
+                        case "Name": {
+                            nextEvent = xmlEventReader.nextEvent();
+                            candyParameters.put("name", nextEvent.asCharacters().getData());
+                        }
+                            break;
+                        case "Energy":{
+                            nextEvent = xmlEventReader.nextEvent();
+                            candyParameters.put("energy", nextEvent.asCharacters().getData());
+                        }
+                            break;
+                        case "Value":
+                            parseValue(xmlEventReader, candyParameters);
+                            break;
+                        case "Production":
+                            parseProduction(nextEvent, xmlEventReader, candyParameters);
+                            break;
+                        case "Ingredients":
+                            parseIngredients(xmlEventReader, candyParameters);
+                            break;
+                    }
+                } else if (nextEvent.isEndElement()) {
+                    EndElement endElement = nextEvent.asEndElement();
+                    if (endElement.getName()
+                            .getLocalPart()
+                            .equals(startElement.getName()
+                                    .getLocalPart())) {
+                        return initCandy(candyParameters);
+                    }
+                }
+            }
+        } else {
+            throw new ParserException("Not a candy.");
         }
-        nextEvent=xmlEventReader.nextEvent();
-        if (nextEvent.isAttribute()){
-            Attribute attribute=nextEvent.
-        }
+    }
 
-        switch (startElementName){
-            case "Chocolate":{
-                String cocoa;
-                String chocolateType;
-                String nuts;
-                String nutsType;
-                return new Chocolate();
-            }
-            case "Hard-candy":{
-               String citricAcid;
-                return new HardCandy();
-            }
+    private Candy initCandy(Map<String, String> candyParameters) {
+        long id = Long.parseLong(candyParameters.get("id")
+                .substring(3));
+        String name = candyParameters.get("name");
+        int energy = Integer.parseInt(candyParameters.get("energy"));
+        int water = Integer.parseInt(candyParameters.get("water"));
+        boolean preparedWater = Boolean.parseBoolean(candyParameters.get("preparedWater"));
+        int sugar = Integer.parseInt(candyParameters.get("sugar"));
+        String sugarType = candyParameters.get("sugarType");
+        double proteins = Double.parseDouble(candyParameters.get("proteins"));
+        double fats = Double.parseDouble(candyParameters.get("fats"));
+        double carbohydrates = Double.parseDouble(candyParameters.get("carbohydrates"));
+        String production = candyParameters.get("production");
+        String country = candyParameters.get("country");
 
-            case "Liquorice":{
-                String liquoriceExtract;
-                String starch;
-                return new Liquorice();
+        switch (candyParameters.get("class")) {
+            case "Chocolate": {
+                int cocoa = Integer.parseInt(candyParameters.get("chocolate"));
+                Chocolate.ChocolateType chocolateType = Chocolate.ChocolateType.valueOf(candyParameters.get("chocolateType")
+                        .toUpperCase());
+                int nuts=0;
+                if(candyParameters.get("nuts")!=null){
+                    nuts= Integer.parseInt(candyParameters.get("nuts"));
+                }
+                String nutsType = candyParameters.get("nutsType");
+                return new Chocolate(id, name, energy, water, preparedWater, sugar, sugarType, proteins, fats, carbohydrates, production, country, cocoa, chocolateType, nuts, nutsType);
             }
-
-            case "Marshmallow":{
-                String gelatin;
-                return new Marshmallow();
+            case "Hard-candy": {
+                int citricAcid = Integer.parseInt(candyParameters.get("citricAcid"));
+                return new HardCandy(id, name, energy, water, preparedWater, sugar, sugarType, proteins, fats, carbohydrates, production, country, citricAcid);
             }
-
-            case "Toffee":{
-                String butter;
-                     String   flour;
-                return new Toffee();
+            case "Liquorice": {
+                int liquoriceExtract = Integer.parseInt(candyParameters.get("liquoriceExtract"));
+                int starch = Integer.parseInt(candyParameters.get("starch"));
+                return new Liquorice(id, name, energy, water, preparedWater, sugar, sugarType, proteins, fats, carbohydrates, production, country, liquoriceExtract, starch);
             }
-
+            case "Marshmallow": {
+                int gelatin = Integer.parseInt(candyParameters.get("gelatin"));
+                return new Marshmallow(id, name, energy, water, preparedWater, sugar, sugarType, proteins, fats, carbohydrates, production, country, gelatin);
+            }
+            case "Toffee": {
+                int butter = Integer.parseInt(candyParameters.get("butter"));
+                int flour = Integer.parseInt(candyParameters.get("flour"));
+                return new Toffee(id, name, energy, water, preparedWater, sugar, sugarType, proteins, fats, carbohydrates, production, country, butter, flour);
+            }
             default:
-                throw new ParserException("No such candy type.");
+                throw new ParserException("No such candy.");
         }
     }
 
 
+    private void parseValue(XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        while (true) {
+            XMLEvent nextEvent = xmlEventReader.nextEvent();
+            if (nextEvent.isStartElement()) {
+                StartElement startElementValue = nextEvent.asStartElement();
+                String startElementValueName = startElementValue.getName()
+                        .getLocalPart();
+                nextEvent = xmlEventReader.nextEvent();
+                switch (startElementValueName) {
+                    case "Proteins":
+                        candyParameters.put("proteins", nextEvent.asCharacters()
+                                .getData());
+                        break;
+                    case "Fats":
+                        candyParameters.put("fats", nextEvent.asCharacters()
+                                .getData());
+                        break;
+                    case "Carbohydrates":
+                        candyParameters.put("carbohydrates", nextEvent.asCharacters()
+                                .getData());
+                        break;
+                }
+            } else if (nextEvent.isEndElement()) {
+                EndElement endElement = nextEvent.asEndElement();
+                if (endElement.getName()
+                        .getLocalPart()
+                        .equals("Value")) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void parseProduction(XMLEvent nextEvent, XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        StartElement productionStartElement = nextEvent.asStartElement();
+        candyParameters.put("country", productionStartElement.getAttributeByName(new QName("country"))
+                .getValue());
+        nextEvent = xmlEventReader.nextEvent();
+        candyParameters.put("production", nextEvent.asCharacters()
+                .getData());
+    }
+
+    private void parseIngredients(XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        switch (candyParameters.get("class")) {
+            case "Chocolate":
+                parseChocolate(xmlEventReader, candyParameters);
+                break;
+            case "Hard-candy":
+                parseHardCandy(xmlEventReader, candyParameters);
+                break;
+            case "Liquorice":
+                parseLiquorice(xmlEventReader, candyParameters);
+                break;
+            case "Marshmallow":
+                parseMarshmallow(xmlEventReader, candyParameters);
+                break;
+            case "Toffee":
+                parseToffee(xmlEventReader, candyParameters);
+                break;
+        }
+    }
+
+    private void parseChocolate(XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        while (true) {
+            XMLEvent nextEvent = xmlEventReader.nextEvent();
+            if (nextEvent.isStartElement()) {
+                StartElement startElementIngredients = nextEvent.asStartElement();
+                String startElementIngredientsName = startElementIngredients.getName()
+                        .getLocalPart();
+               // nextEvent = xmlEventReader.nextEvent();
+                switch (startElementIngredientsName) {
+                    case "Water":
+                        parseWater(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Sugar":
+                        parseSugar(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Chocolate":
+                        parseCocoa(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Nuts":
+                        parseNuts(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                }
+            } else if (nextEvent.isEndElement()) {
+                EndElement endElement = nextEvent.asEndElement();
+                if (endElement.getName()
+                        .getLocalPart()
+                        .equals("Ingredients")) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void parseHardCandy(XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        while (true) {
+            XMLEvent nextEvent = xmlEventReader.nextEvent();
+            if (nextEvent.isStartElement()) {
+                StartElement startElementIngredients = nextEvent.asStartElement();
+                String startElementIngredientsName = startElementIngredients.getName()
+                        .getLocalPart();
+                switch (startElementIngredientsName) {
+                    case "Water":
+                        parseWater(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Sugar":
+                        parseSugar(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Citric-acid": {
+                        nextEvent = xmlEventReader.nextEvent();
+                        candyParameters.put("citricAcid", nextEvent.asCharacters()
+                                .getData());
+                    }
+
+                        break;
+                }
+            } else if (nextEvent.isEndElement()) {
+                EndElement endElement = nextEvent.asEndElement();
+                if (endElement.getName()
+                        .getLocalPart()
+                        .equals("Ingredients")) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void parseLiquorice(XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        while (true) {
+            XMLEvent nextEvent = xmlEventReader.nextEvent();
+            if (nextEvent.isStartElement()) {
+                StartElement startElementIngredients = nextEvent.asStartElement();
+                String startElementIngredientsName = startElementIngredients.getName()
+                        .getLocalPart();
+                switch (startElementIngredientsName) {
+                    case "Water":
+                        parseWater(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Sugar":
+                        parseSugar(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Liquorice-extract":{
+                        nextEvent = xmlEventReader.nextEvent();
+                        candyParameters.put("liquoriceExtract", nextEvent.asCharacters()
+                                .getData());
+                    }
+
+                        break;
+                    case "Starch":{
+                        nextEvent = xmlEventReader.nextEvent();
+                        candyParameters.put("starch", nextEvent.asCharacters()
+                                .getData());
+                    }
+                        break;
+                }
+            } else if (nextEvent.isEndElement()) {
+                EndElement endElement = nextEvent.asEndElement();
+                if (endElement.getName()
+                        .getLocalPart()
+                        .equals("Ingredients")) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void parseMarshmallow(XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        while (true) {
+            XMLEvent nextEvent = xmlEventReader.nextEvent();
+            if (nextEvent.isStartElement()) {
+                StartElement startElementIngredients = nextEvent.asStartElement();
+                String startElementIngredientsName = startElementIngredients.getName()
+                        .getLocalPart();
+            //
+                switch (startElementIngredientsName) {
+                    case "Water":
+                        parseWater(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Sugar":
+                        parseSugar(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Gelatin":{
+                        nextEvent = xmlEventReader.nextEvent();
+                        candyParameters.put("gelatin", nextEvent.asCharacters()
+                                .getData());
+                    }
+                        break;
+                }
+            } else if (nextEvent.isEndElement()) {
+                EndElement endElement = nextEvent.asEndElement();
+                if (endElement.getName()
+                        .getLocalPart()
+                        .equals("Ingredients")) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void parseToffee(XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        while (true) {
+            XMLEvent nextEvent = xmlEventReader.nextEvent();
+            if (nextEvent.isStartElement()) {
+                StartElement startElementIngredients = nextEvent.asStartElement();
+                String startElementIngredientsName = startElementIngredients.getName()
+                        .getLocalPart();
+                switch (startElementIngredientsName) {
+                    case "Water":
+                        parseWater(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Sugar":
+                        parseSugar(nextEvent, xmlEventReader, candyParameters);
+                        break;
+                    case "Butter":{
+                        nextEvent = xmlEventReader.nextEvent();
+                        candyParameters.put("butter", nextEvent.asCharacters()
+                                .getData());
+                    }
+                        break;
+                    case "Flour":{
+                        nextEvent = xmlEventReader.nextEvent();
+                        candyParameters.put("flour", nextEvent.asCharacters()
+                                .getData());
+                    }
+                        break;
+                }
+            } else if (nextEvent.isEndElement()) {
+                EndElement endElement = nextEvent.asEndElement();
+                if (endElement.getName()
+                        .getLocalPart()
+                        .equals("Ingredients")) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void parseWater(XMLEvent nextEvent, XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        if(nextEvent.isCharacters()){
+            System.out.println(nextEvent.asCharacters().getData());
+        }
+        StartElement waterStartElement = nextEvent.asStartElement();
+        if(waterStartElement.getAttributes()
+                .hasNext()){
+            candyParameters.put("preparedWater",  waterStartElement.getAttributeByName(new QName("prepared"))
+                    .getValue());
+        }else {
+            candyParameters.put("preparedWater",  "false");
+        }
+        nextEvent = xmlEventReader.nextEvent();
+        candyParameters.put("water", nextEvent.asCharacters()
+                .getData());
+    }
+
+    private void parseSugar(XMLEvent nextEvent, XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        StartElement sugarStartElement = nextEvent.asStartElement();
+        if(sugarStartElement.getAttributes()
+                .hasNext()){
+            candyParameters.put("sugarType", sugarStartElement.getAttributeByName(new QName("type"))
+                    .getValue());
+        }else {
+            candyParameters.put("sugarType",  "white");
+        }
+        nextEvent = xmlEventReader.nextEvent();
+        candyParameters.put("sugar", nextEvent.asCharacters()
+                .getData());
+    }
+
+    private void parseCocoa(XMLEvent nextEvent, XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        StartElement sugarStartElement = nextEvent.asStartElement();
+        candyParameters.put("chocolateType", sugarStartElement.getAttributeByName(new QName("type"))
+                .getValue());
+        nextEvent = xmlEventReader.nextEvent();
+        candyParameters.put("chocolate", nextEvent.asCharacters()
+                .getData());
+    }
+
+    private void parseNuts(XMLEvent nextEvent, XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
+        StartElement sugarStartElement = nextEvent.asStartElement();
+        if(sugarStartElement.getAttributes()
+                .hasNext()){
+            candyParameters.put("nutsType", sugarStartElement.getAttributeByName(new QName("type"))
+                    .getValue());
+        }else {
+            candyParameters.put("nutsType",  "");
+        }
+        nextEvent = xmlEventReader.nextEvent();
+        candyParameters.put("nuts", nextEvent.asCharacters()
+                .getData());
+    }
 }

@@ -1,6 +1,7 @@
 package com.andreiyusupau.xmlparser.parser;
 
 import com.andreiyusupau.xmlparser.model.Candy;
+import com.andreiyusupau.xmlparser.model.Chocolate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,18 +44,58 @@ public class DomParser implements XmlParser<Candy> {
         } catch (Exception exc) {
             exc.printStackTrace();
         }
+        return null;
     }
 
     // создаем из узла документа объект Language
     private static Candy getCandy(Node node) {
-        Candy candy;
-        if (node.getNodeType() == Node.ELEMENT_NODE) {
-            Element element = (Element) node;
-            lang.setName(getTagValue("name", element));
-            lang.setAge(Integer.parseInt(getTagValue("age", element)));
-        }
+//        switch (node.getNodeName()){
+//            case "Chocolate":
+//                break;
+//            case "Hard-candy":
+//                break;
+//            case "Liquorice":
+//                break;
+//            case "Marshmallow":
+//                break;
+//            case "Toffee":
+//                break;
+//        }
+//        Candy candy;
+//        if (node.getNodeType() == Node.ELEMENT_NODE) {
+//            Element element = (Element) node;
+//
+//            lang.setName(getTagValue("name", element));
+//            lang.setAge(Integer.parseInt(getTagValue("age", element)));
+//        }
+//
+//        return lang;
+        return null;
+    }
 
-        return lang;
+    private Chocolate parseChocolate(Node node){
+//        if (node.getNodeType() == Node.ELEMENT_NODE) {
+//            Element element = (Element) node;
+//            return new Chocolate(Long.parseLong(getTagValue("id", element)
+//                    .substring(3)),
+//            String name,
+//            int energy,
+//            int water,
+//            boolean preparedWater,
+//            int sugar,
+//            String sugarType,
+//            double proteins,
+//            double fats,
+//            double carbohydrates,
+//            String production,
+//            String country,
+//            int cocoa,
+//            ChocolateType chocolateType,
+//            int nuts,
+//            String nutsType);
+//            lang.setName(getTagValue("name", element));
+//            lang.setAge(Integer.parseInt(getTagValue("age", element)));
+        return null;
     }
 
     // получаем значение элемента по указанному тегу
