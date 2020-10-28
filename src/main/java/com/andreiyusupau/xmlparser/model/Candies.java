@@ -1,5 +1,6 @@
 package com.andreiyusupau.xmlparser.model;
 
+
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
@@ -14,6 +15,10 @@ public class Candies {
             @XmlElement(name = "Toffee", type = Toffee.class),
     })
     private List<Candy> candies;
+
+    public List<Candy> getCandies() {
+        return candies;
+    }
 
     @Override
     public String toString() {

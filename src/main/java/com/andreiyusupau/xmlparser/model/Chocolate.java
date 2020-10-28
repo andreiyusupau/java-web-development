@@ -1,6 +1,7 @@
 package com.andreiyusupau.xmlparser.model;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import org.eclipse.persistence.oxm.annotations.XmlPath;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -8,11 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Chocolate extends Candy {
     @XmlElement(name = "Chocolate")
     private int cocoa;
-    @XmlAttribute(name = "type")
+    @XmlPath("Chocolate/@type")
     private ChocolateType chocolateType;
     @XmlElement(name = "Nuts")
     private int nuts;
-    @XmlAttribute(name = "type")
+    @XmlPath("Nuts/@type")
     private String nutsType;
 
     public Chocolate() {

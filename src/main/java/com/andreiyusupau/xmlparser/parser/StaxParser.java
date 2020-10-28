@@ -20,9 +20,8 @@ import java.util.Map;
 public class StaxParser implements XmlParser<Candy> {
 
     public Collection<Candy> parse(String inputXml) {
-        String filename = "candies.xml";
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        try (FileInputStream fileInputStream = new FileInputStream(filename)) {
+        try (FileInputStream fileInputStream = new FileInputStream(inputXml)) {
             XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(fileInputStream);
             Collection<Candy> candyCollection = new ArrayList<>();
             while (xmlEventReader.hasNext()) {
@@ -217,7 +216,6 @@ public class StaxParser implements XmlParser<Candy> {
                 StartElement startElementIngredients = nextEvent.asStartElement();
                 String startElementIngredientsName = startElementIngredients.getName()
                         .getLocalPart();
-               // nextEvent = xmlEventReader.nextEvent();
                 switch (startElementIngredientsName) {
                     case "Water":
                         parseWater(nextEvent, xmlEventReader, candyParameters);
@@ -322,7 +320,6 @@ public class StaxParser implements XmlParser<Candy> {
                 StartElement startElementIngredients = nextEvent.asStartElement();
                 String startElementIngredientsName = startElementIngredients.getName()
                         .getLocalPart();
-            //
                 switch (startElementIngredientsName) {
                     case "Water":
                         parseWater(nextEvent, xmlEventReader, candyParameters);
@@ -387,9 +384,6 @@ public class StaxParser implements XmlParser<Candy> {
     }
 
     private void parseWater(XMLEvent nextEvent, XMLEventReader xmlEventReader, Map<String, String> candyParameters) throws XMLStreamException {
-        if(nextEvent.isCharacters()){
-            System.out.println(nextEvent.asCharacters().getData());
-        }
         StartElement waterStartElement = nextEvent.asStartElement();
         if(waterStartElement.getAttributes()
                 .hasNext()){

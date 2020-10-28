@@ -17,7 +17,6 @@
             <Nuts type="forest">123</Nuts>
         </Ingredients>
     </Chocolate>
-
     <Hard-candy id="ID-2">
         <Name>Jelly</Name>
         <Energy>200</Energy>
@@ -33,7 +32,6 @@
             <Citric-acid>100</Citric-acid>
         </Ingredients>
     </Hard-candy>
-
     <Liquorice id="ID-3">
         <Name>SomeLiquorice</Name>
         <Energy>150</Energy>
@@ -50,7 +48,6 @@
             <Starch>110</Starch>
         </Ingredients>
     </Liquorice>
-
     <Toffee id="ID-4">
         <Name>Toffy</Name>
         <Energy>50</Energy>
@@ -67,7 +64,6 @@
             <Flour>53</Flour>
         </Ingredients>
     </Toffee>
-
     <Marshmallow id="ID-5">
         <Name>Marshmallow</Name>
         <Energy>50</Energy>
@@ -83,5 +79,4 @@
             <Gelatin>3</Gelatin>
         </Ingredients>
     </Marshmallow>
-
 </Candies>

@@ -1,27 +1,23 @@
 package com.andreiyusupau.xmlparser;
 
-import com.andreiyusupau.xmlparser.model.Candies;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
+import com.andreiyusupau.xmlparser.model.Candy;
+import com.andreiyusupau.xmlparser.parser.JaxbParser;
+import com.andreiyusupau.xmlparser.parser.XmlParser;
+import com.andreiyusupau.xmlparser.validator.Validator;
 
 public class Main {
 
-    public static void main(String[] args) throws JAXBException {
-//        XmlParser<Candy> parser= new StaxParser();
-//      for(Candy candy: parser.parse("candies.xml")){
-//          System.out.println(candy.toString());
-//      }
-        JAXBContext jc = JAXBContext.newInstance(Candies.class);
+    public static final String FILE_NAME = "candies.xml";
+    public static final String SCHEMA_NAME = "schema.xsd";
 
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
-        Candies candies = (Candies) unmarshaller.unmarshal(new File("candies.xml"));
-
-        System.out.println(candies.toString());
-//        Marshaller marshaller = jc.createMarshaller();
-//        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//        marshaller.marshal(fosterHome, System.out);
+    public static void main(String[] args) {
+        Validator validator=new Validator();
+        validator.checkXMLDocument(FILE_NAME, SCHEMA_NAME);
+        //XmlParser<Candy> parser= new StaxParser();
+       // XmlParser<Candy> parser=new DomParser();
+       XmlParser<Candy> parser=new JaxbParser();
+      for(Candy candy: parser.parse(FILE_NAME)) {
+          System.out.println(candy.toString());
+      }
     }
 }

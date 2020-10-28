@@ -1,6 +1,7 @@
 package com.andreiyusupau.xmlparser.model;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import org.eclipse.persistence.oxm.annotations.XmlPath;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
@@ -14,23 +15,23 @@ public abstract class Candy {
     private String name;
     @XmlElement(name = "Energy")
     private int energy;
-    @XmlElement(name = "Water")
+    @XmlPath("Ingredients/Water")
     private int water;
-    @XmlAttribute(name = "prepared")
+    @XmlPath("Ingredients/Water/@prepared")
     private boolean preparedWater;
-    @XmlElement(name = "Sugar")
+    @XmlPath("Ingredients/Sugar")
     private int sugar;
-    @XmlAttribute(name = "type")
+    @XmlPath("Ingredients/Sugar/@type")
     private String sugarType;
-    @XmlElement(name = "Proteins")
+    @XmlPath("Value/Protein")
     private double proteins;
-    @XmlElement(name = "Fats")
+    @XmlPath("Value/Fats")
     private double fats;
-    @XmlElement(name = "Carbohydrates")
+    @XmlPath("Value/Carbohydrates")
     private double carbohydrates;
     @XmlElement(name = "Production")
     private String production;
-    @XmlAttribute(name = "country")
+    @XmlPath("Production/@country")
     private String country;
 
     public Candy() {
