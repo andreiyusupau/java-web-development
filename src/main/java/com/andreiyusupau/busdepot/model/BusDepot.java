@@ -1,4 +1,4 @@
-package com.adnreiyusupau.busdepot.model;
+package com.andreiyusupau.busdepot.model;
 
 public final class BusDepot {
 

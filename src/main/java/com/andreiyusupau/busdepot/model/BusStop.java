@@ -1,4 +1,7 @@
-package com.adnreiyusupau.busdepot.model;
+package com.andreiyusupau.busdepot.model;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,25 +12,26 @@ public final class BusStop {
     private final String name;
     private final Set<Passenger> passengers=new HashSet<>();
     private final Semaphore semaphore;
-
+    private static final Logger LOGGER = LogManager.getLogger(BusStop.class);
     public BusStop(String name, Semaphore semaphore) {
         this.name = name;
         this.semaphore = semaphore;
     }
 
    public void leave(){
+     LOGGER.info("Bus leaves "+this);
         semaphore.release();
    }
 
-   public void arrive() throws InterruptedException {
+   public void arrive(Bus bus) throws InterruptedException {
+        LOGGER.info(bus+" arrives at "+this);
         semaphore.acquire();
-   }
-
-   public void addPassenger(Passenger passenger){
-        passengers.add(passenger);
+        passengers.forEach(passenger -> passenger.busArrivedEvent(bus));
    }
 
     public void addPassengers(Passenger ... addedPassengers){
         passengers.addAll(Arrays.asList(addedPassengers));
     }
+
+
 }
