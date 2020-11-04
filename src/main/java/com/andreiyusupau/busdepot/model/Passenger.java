@@ -3,33 +3,39 @@ package com.andreiyusupau.busdepot.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class Passenger implements Runnable{
+public final class Passenger implements Runnable {
 
+    private static final Logger LOGGER = LogManager.getLogger(Passenger.class);
     private final BusStop targetStop;
     private Bus bus;
-    private static final Logger LOGGER = LogManager.getLogger(Passenger.class);
 
     public Passenger(BusStop targetStop) {
         this.targetStop = targetStop;
     }
 
-    public void busArrivedEvent(Bus bus){
-        LOGGER.info("Passenger on bus stop notified that bus has arrived");
-    if(bus.getRoute()
-            .containsStop(targetStop)){
-        LOGGER.info("Passenger tries to enter bus");
-       this.bus=bus;
-     notifyAll();
-    }
+    public synchronized void busArrivedEvent(Bus bus) {
+        LOGGER.info(this + " on bus stop notified that " + bus + " has arrived");
+        if (bus.getRoute()
+                .containsStop(targetStop)) {
+            LOGGER.info(this + " tries to enter bus");
+            this.bus = bus;
+            notifyAll();
+        }
     }
 
-    public void currentStopEvent(){
-        LOGGER.info("Passenger in bus notified that bus has arrived");
+    public synchronized void currentStopEvent() {
+        LOGGER.info(this + " in bus notified that bus has arrived at bus stop");
+        notifyAll();
     }
 
     @Override
     public void run() {
-        while (bus==null){
+        enterBus();
+        exitBus();
+    }
+
+    public synchronized void enterBus() {
+        while (bus == null) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -37,7 +43,10 @@ public final class Passenger implements Runnable{
             }
         }
         bus.enter(this);
-        while (bus.getCurrentBusStop()!=targetStop){
+    }
+
+    public synchronized void exitBus() {
+        while (bus.getCurrentBusStop() != targetStop) {
             try {
                 wait();
             } catch (InterruptedException e) {

@@ -10,62 +10,76 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public final class Bus implements Runnable {
 
-    private final Route route;
-    private final Set<Passenger> passengers=new HashSet<>();
-    private final ReentrantLock doors=new ReentrantLock();
-    private BusStop currentBusStop;
     private static final Logger LOGGER = LogManager.getLogger(Bus.class);
+    private final Route route;
+    private final Set<Passenger> passengers = new HashSet<>();
+    private final ReentrantLock doors = new ReentrantLock();
+    private BusStop currentBusStop;
+    private boolean riding = true;
 
     public Bus(Route route) {
         this.route = route;
+    }
+
+    public boolean isRiding() {
+        return riding;
+    }
+
+    public void setRiding(boolean riding) {
+        this.riding = riding;
     }
 
     public Route getRoute() {
         return route;
     }
 
+    public Set<Passenger> getPassengers() {
+        return passengers;
+    }
+
     public BusStop getCurrentBusStop() {
         return currentBusStop;
     }
 
-    public void enter(Passenger passenger){
+    public void enter(Passenger passenger) {
         doors.lock();
         try {
             passengers.add(passenger);
-            LOGGER.info(passenger+" entered "+this);
-        }finally {
+            LOGGER.info(passenger + " entered " + this);
+        } finally {
             doors.unlock();
         }
     }
 
-    public void leave(Passenger passenger){
+    public void leave(Passenger passenger) {
         doors.lock();
         try {
             passengers.remove(passenger);
-            LOGGER.info(passenger+" left "+this);
-        }finally {
+            LOGGER.info(passenger + " left " + this);
+        } finally {
             doors.unlock();
         }
     }
 
-    public void ride(){
+    public void ride() {
         doors.lock();
-        LOGGER.info(this+" closed the doors");
+        LOGGER.info(this + " closed the doors");
         try {
-            if(currentBusStop!=null){
-                currentBusStop.leave();
+            if (currentBusStop != null) {
+                currentBusStop.leave(this);
+                LOGGER.info(this + " left the " + currentBusStop);
             }
-            currentBusStop=route.getNextStop(currentBusStop);
-                TimeUnit.SECONDS
-                        .sleep(1);
-                currentBusStop.arrive(this);
-                LOGGER.info(this+" arrived");
+            currentBusStop = route.getNextStop(currentBusStop);
+            TimeUnit.SECONDS
+                    .sleep(1);
+            currentBusStop.arrive(this);
+            LOGGER.info(this + " arrived at " + currentBusStop);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
+            passengers.forEach(Passenger::currentStopEvent);
             doors.unlock();
-            LOGGER.info(this+" opened the doors");
-            passengers.forEach(passenger -> passenger.busArrivedEvent(this));
+            LOGGER.info(this + " opened the doors");
             try {
                 TimeUnit.SECONDS
                         .sleep(1);
@@ -77,7 +91,7 @@ public final class Bus implements Runnable {
 
     @Override
     public void run() {
-        while (true){
+        while (riding || !passengers.isEmpty()) {
             ride();
         }
     }
