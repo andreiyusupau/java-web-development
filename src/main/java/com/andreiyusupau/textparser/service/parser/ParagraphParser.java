@@ -1,4 +1,4 @@
-package com.andreiyusupau.textparser.service;
+package com.andreiyusupau.textparser.service.parser;
 
 import com.andreiyusupau.textparser.model.Component;
 import com.andreiyusupau.textparser.model.Composite;
@@ -6,11 +6,11 @@ import com.andreiyusupau.textparser.model.Composite;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ParagraphParser implements Parser{
+public class ParagraphParser implements Parser<Component,String>{
 
     private final static String SENTENCE_PATTERN=".+?(\\?!|!\\?|\\.|!|\\?|\\.\\.\\.)";
     private final Pattern sentencePattern=Pattern.compile(SENTENCE_PATTERN);
-    private final Parser nextParser=new SentenceParser();
+    private final Parser<Component,String> nextParser=new SentenceParser();
 
     @Override
     public Component parse(String string) {

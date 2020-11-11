@@ -1,4 +1,4 @@
-package com.andreiyusupau.textparser.service;
+package com.andreiyusupau.textparser.service.parser;
 
 import com.andreiyusupau.textparser.model.Component;
 import com.andreiyusupau.textparser.model.Composite;
@@ -6,11 +6,11 @@ import com.andreiyusupau.textparser.model.Composite;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TextParser implements Parser {
+public class TextParser implements Parser<Component,String> {
 
     private final static String PARAGRAPH_PATTERN="(.+?)(\\z|\\n|\\r|\\f|\\u0085|\\u2029|$)";
     private final Pattern paragraphPattern=Pattern.compile(PARAGRAPH_PATTERN);
-    private final Parser nextParser=new ParagraphParser();
+    private final Parser<Component,String> nextParser=new ParagraphParser();
 
     @Override
     public Component parse(String string) {

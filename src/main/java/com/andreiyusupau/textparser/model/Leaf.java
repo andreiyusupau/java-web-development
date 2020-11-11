@@ -24,4 +24,9 @@ public final class Leaf implements Component{
     public static Leaf newWord(String value){
         return new Leaf(value, Type.WORD);
     }
+
+    @Override
+    public String toString() {
+        return "Leaf{" + value + '}';
+    }
 }

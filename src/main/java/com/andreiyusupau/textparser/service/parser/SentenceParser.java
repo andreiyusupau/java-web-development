@@ -1,4 +1,4 @@
-package com.andreiyusupau.textparser.service;
+package com.andreiyusupau.textparser.service.parser;
 
 import com.andreiyusupau.textparser.model.Component;
 import com.andreiyusupau.textparser.model.Composite;
@@ -6,11 +6,11 @@ import com.andreiyusupau.textparser.model.Composite;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SentenceParser implements Parser {
+public class SentenceParser implements Parser<Component,String> {
 
     private final static String LEXEME_PATTERN="\\b\\w+?\\b";
     private final Pattern lexemePattern=Pattern.compile(LEXEME_PATTERN);
-    private final Parser nextParser=new LexemeParser();
+    private final Parser<Component,String> nextParser=new LexemeParser();
 
     @Override
     public Component parse(String string) {
