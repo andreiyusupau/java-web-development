@@ -5,7 +5,7 @@ import com.andreiyusupau.textparser.model.Leaf;
 import com.andreiyusupau.textparser.service.parser.interpreter.ExpressionParser;
 
 public class LexemeParser implements Parser<Component,String> {
-//TODO:
+
     private final static String WORD_PATTERN = "\\b\\w+\\b";
     private final static String EXPRESSION_PATTERN = "[.+]";
     private final Parser<Component,String> nextParser = new ExpressionParser();

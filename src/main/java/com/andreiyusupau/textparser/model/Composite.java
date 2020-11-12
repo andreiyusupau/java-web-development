@@ -1,17 +1,12 @@
 package com.andreiyusupau.textparser.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public final class Composite implements Component {
 
-    private final Collection<Component> children = new ArrayList<>();
-
-    @Override
-    public void operation() {
-
-    }
+    private final List<Component> children = new ArrayList<>();
 
     @Override
     public void addChild(Component component) {
@@ -19,21 +14,16 @@ public final class Composite implements Component {
     }
 
     @Override
-    public Collection<Component> getChildren() {
+    public List<Component> getChildren() {
         return children;
     }
 
     @Override
-    public void removeChild(Component component) {
-        children.remove(component);
-    }
-
-    @Override
     public String toString() {
-
         return "Composite{\n"+
                 children.stream()
-                .map(Component::toString).collect(Collectors.joining(","))+
+                .map(Component::toString)
+                        .collect(Collectors.joining(","))+
                 "\n}";
     }
 }

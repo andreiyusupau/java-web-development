@@ -5,11 +5,6 @@ public final class Leaf implements Component{
     private final String value;
     private final Type type;
 
-    @Override
-    public void operation() {
-
-    }
-
     enum Type {EXPRESSION,WORD}
 
     private Leaf(String value,Type type){
@@ -25,8 +20,16 @@ public final class Leaf implements Component{
         return new Leaf(value, Type.WORD);
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
-        return "Leaf{" + value + '}';
+        return value;
     }
 }

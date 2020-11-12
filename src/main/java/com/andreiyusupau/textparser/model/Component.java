@@ -1,20 +1,14 @@
 package com.andreiyusupau.textparser.model;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface Component {
-
-    void operation();
 
     default void addChild(Component component) {
         throw new UnsupportedOperationException();
     }
 
-    default Collection<Component> getChildren() {
-        throw new UnsupportedOperationException();
-    }
-
-    default void removeChild(Component component) {
+    default List<Component> getChildren() {
         throw new UnsupportedOperationException();
     }
 }
