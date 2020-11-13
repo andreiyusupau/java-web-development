@@ -26,4 +26,19 @@ public final class Composite implements Component {
                         .collect(Collectors.joining(","))+
                 "\n}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o){ return true;}
+        if (o == null || getClass() != o.getClass()){ return false;}
+
+        Composite composite = (Composite) o;
+
+        return children.equals(composite.children);
+    }
+
+    @Override
+    public int hashCode() {
+        return children.hashCode();
+    }
 }

@@ -11,26 +11,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CalculatorTest {
 
-    private final Calculator calculator=new Calculator();
+    private final Calculator calculator = new Calculator();
+    private final Expression plus = context -> context.push(context.pop() + context.pop());
+    private final Expression two = context -> context.push(2);
     private List<Expression> expressions;
-    private final Expression plus=context-> context.push(context.pop() + context.pop());
-    private final Expression two=context->context.push(2);
 
     @BeforeEach
-    void set(){
-        expressions=List.of(two,two,plus);
+    void set() {
+        expressions = List.of(two, two, plus);
     }
 
     @Test
-    void calculateShouldReturnFour(){
-int result=calculator.calculate(expressions);
-assertEquals(4,result);
+    void calculateShouldReturnFour() {
+        int result = calculator.calculate(expressions);
+        assertEquals(4, result);
     }
 
     @Test
-    void calculateShouldThrowNoSuchElementException(){
+    void calculateShouldThrowNoSuchElementException() {
         //TODO:
-        int result=calculator.calculate(expressions);
-        assertEquals(4,result);
+        int result = calculator.calculate(expressions);
+        assertEquals(4, result);
     }
 }

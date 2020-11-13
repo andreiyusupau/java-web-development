@@ -15,17 +15,17 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ExpressionParserTest {
 
-    private final String expression="2 2 +";
+    private final String expression = "2 2 +";
     @Mock
     private Calculator calculator;
     @InjectMocks
     private ExpressionParser expressionParser;
 
     @Test
-    void shouldReturnFour(){
+    void shouldReturnFour() {
         when(calculator.calculate(any())).thenReturn(4);
-        Component component =expressionParser.parse(expression);
-        int result=Integer.parseInt(((Leaf)component).getValue());
-        assertEquals(4,result);
+        Component component = expressionParser.parse(expression);
+        int result = Integer.parseInt(((Leaf) component).getValue());
+        assertEquals(4, result);
     }
 }

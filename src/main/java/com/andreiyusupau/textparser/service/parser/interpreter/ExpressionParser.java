@@ -3,7 +3,9 @@ package com.andreiyusupau.textparser.service.parser.interpreter;
 import com.andreiyusupau.textparser.model.Component;
 import com.andreiyusupau.textparser.model.Leaf;
 import com.andreiyusupau.textparser.service.parser.Parser;
-import com.andreiyusupau.textparser.service.parser.interpreter.expression.*;
+import com.andreiyusupau.textparser.service.parser.interpreter.expression.Expression;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 
 public class ExpressionParser implements Parser<Component,String> {
 
+    private static final Logger LOGGER = LogManager.getLogger(ExpressionParser.class);
     private final Calculator calculator;
 
     public ExpressionParser(Calculator calculator) {
@@ -18,6 +21,7 @@ public class ExpressionParser implements Parser<Component,String> {
     }
 
     public Component parse(String expression) {
+        LOGGER.info("Parsing exception");
         List<Expression> listExpression=new ArrayList<>();
         for (String lexeme : expression.split("\\p{Blank}+")) {
             if (lexeme.isEmpty()) {

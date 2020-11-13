@@ -32,4 +32,22 @@ public final class Leaf implements Component{
     public String toString() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
+
+        Leaf leaf = (Leaf) o;
+
+        if (!value.equals(leaf.value)) {return false;}
+        return type == leaf.type;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = value.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
+    }
 }
