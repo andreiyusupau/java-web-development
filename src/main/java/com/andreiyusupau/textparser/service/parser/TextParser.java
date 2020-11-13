@@ -10,7 +10,11 @@ public class TextParser implements Parser<Component,String> {
 
     private final static String PARAGRAPH_PATTERN="(.+?)(\\z|\\n|\\r|\\f|\\u0085|\\u2029|$)";
     private final Pattern paragraphPattern=Pattern.compile(PARAGRAPH_PATTERN);
-    private final Parser<Component,String> nextParser=new ParagraphParser();
+    private final Parser<Component,String> nextParser;
+
+    public TextParser(Parser<Component, String> nextParser) {
+        this.nextParser = nextParser;
+    }
 
     @Override
     public Component parse(String string) {

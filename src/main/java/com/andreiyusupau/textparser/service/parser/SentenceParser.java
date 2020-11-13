@@ -10,7 +10,11 @@ public class SentenceParser implements Parser<Component,String> {
 
     private final static String LEXEME_PATTERN="\\b\\w+?\\b";
     private final Pattern lexemePattern=Pattern.compile(LEXEME_PATTERN);
-    private final Parser<Component,String> nextParser=new LexemeParser();
+    private final Parser<Component,String> nextParser;
+
+    public SentenceParser(Parser<Component, String> nextParser) {
+        this.nextParser = nextParser;
+    }
 
     @Override
     public Component parse(String string) {

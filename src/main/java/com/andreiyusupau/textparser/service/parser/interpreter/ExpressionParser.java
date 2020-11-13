@@ -11,7 +11,11 @@ import java.util.Scanner;
 
 public class ExpressionParser implements Parser<Component,String> {
 
-    private final Calculator calculator=new Calculator();
+    private final Calculator calculator;
+
+    public ExpressionParser(Calculator calculator) {
+        this.calculator = calculator;
+    }
 
     public Component parse(String expression) {
         List<Expression> listExpression=new ArrayList<>();

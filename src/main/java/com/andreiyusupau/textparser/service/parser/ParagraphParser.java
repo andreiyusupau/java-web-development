@@ -10,7 +10,11 @@ public class ParagraphParser implements Parser<Component,String>{
 
     private final static String SENTENCE_PATTERN=".+?(\\?!|!\\?|\\.|!|\\?|\\.\\.\\.)";
     private final Pattern sentencePattern=Pattern.compile(SENTENCE_PATTERN);
-    private final Parser<Component,String> nextParser=new SentenceParser();
+    private final Parser<Component,String> nextParser;
+
+    public ParagraphParser(Parser<Component, String> nextParser) {
+        this.nextParser = nextParser;
+    }
 
     @Override
     public Component parse(String string) {
