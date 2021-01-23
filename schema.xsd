@@ -106,11 +106,11 @@
 							</xsd:simpleContent>
 						</xsd:complexType>
 					</xsd:element>
-					<xsd:element name="Nuts">
+					<xsd:element name="Nuts" minOccurs="0">
 						<xsd:complexType>
 							<xsd:simpleContent>
 								<xsd:extension base="xsd:int">
-									<xsd:attribute name="type" type="xsd:string" use="required"/>
+									<xsd:attribute name="type" type="xsd:string"/>
 								</xsd:extension>
 							</xsd:simpleContent>
 						</xsd:complexType>

@@ -2,14 +2,14 @@
 <Candies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation = "schema.xsd">
     <Chocolate id="ID-1">
-        <Name>"Alpen Gold"</Name>
+        <Name>Alpen Gold</Name>
         <Energy>250</Energy>
         <Value>
             <Proteins>4</Proteins>
             <Fats>5</Fats>
             <Carbohydrates>14</Carbohydrates>
         </Value>
-        <Production country="Ukraine">"Roshen"</Production>
+        <Production country="Ukraine">Roshen</Production>
         <Ingredients>
             <Water>2</Water>
             <Sugar>170</Sugar>
@@ -17,25 +17,23 @@
             <Nuts type="forest">123</Nuts>
         </Ingredients>
     </Chocolate>
-
     <Hard-candy id="ID-2">
-        <Name>"Jelly"</Name>
+        <Name>Jelly</Name>
         <Energy>200</Energy>
         <Value>
             <Proteins>2</Proteins>
             <Fats>3</Fats>
             <Carbohydrates>4</Carbohydrates>
         </Value>
-        <Production country="Belarus">"Spartacus"</Production>
+        <Production country="Belarus">Spartacus</Production>
         <Ingredients>
-            <Water>2</Water>
+            <Water prepared="true">2</Water>
             <Sugar>100</Sugar>
             <Citric-acid>100</Citric-acid>
         </Ingredients>
     </Hard-candy>
-
     <Liquorice id="ID-3">
-        <Name>"SomeLiquorice"</Name>
+        <Name>SomeLiquorice</Name>
         <Energy>150</Energy>
         <Value>
             <Proteins>4</Proteins>
@@ -50,9 +48,8 @@
             <Starch>110</Starch>
         </Ingredients>
     </Liquorice>
-
     <Toffee id="ID-4">
-        <Name>"Toffy"</Name>
+        <Name>Toffy</Name>
         <Energy>50</Energy>
         <Value>
             <Proteins>4</Proteins>
@@ -67,9 +64,8 @@
             <Flour>53</Flour>
         </Ingredients>
     </Toffee>
-
     <Marshmallow id="ID-5">
-        <Name>"Marshmallow"</Name>
+        <Name>Marshmallow</Name>
         <Energy>50</Energy>
         <Value>
             <Proteins>4</Proteins>
@@ -83,5 +79,4 @@
             <Gelatin>3</Gelatin>
         </Ingredients>
     </Marshmallow>
-
 </Candies>
